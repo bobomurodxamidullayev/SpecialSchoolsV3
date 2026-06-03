@@ -143,6 +143,26 @@ export async function initializeData(): Promise<void> {
     ]);
   }
 
+  if (!(await fileExists("admissions-requirements.json"))) {
+    await writeData("admissions-requirements.json", [
+      { id: "1", order: 1, text: { uz: "4-sinfni a'lo baholar bilan tamomlaganlik", en: "Completion of 4th grade with excellent grades", ru: "Окончание 4-го класса с отличными оценками" } },
+      { id: "2", order: 2, text: { uz: "Tug'ilganlik to'g'risidagi guvohnoma yoki pasport nusxasi", en: "Birth certificate or passport copy", ru: "Свидетельство о рождении или копия паспорта" } },
+      { id: "3", order: 3, text: { uz: "Tibbiy ma'lumotnoma (086-shakl)", en: "Medical certificate (086 form)", ru: "Медицинская справка (форма 086)" } },
+      { id: "4", order: 4, text: { uz: "4 dona 3×4 formatdagi rasm", en: "4 photos in 3×4 format", ru: "4 фотографии в формате 3×4" } },
+      { id: "5", order: 5, text: { uz: "Akademik yutuqlar to'plami — portfolio (ixtiyoriy, ammo tavsiya etiladi)", en: "Academic achievements portfolio (optional, but recommended)", ru: "Портфолио академических достижений (необязательно, но рекомендуется)" } },
+    ]);
+  }
+
+  if (!(await fileExists("admissions-dates.json"))) {
+    await writeData("admissions-dates.json", [
+      { id: "1", order: 1, date: "1-may — 31-may", event: { uz: "Onlayn ariza qabul qilish davri", en: "Online application period", ru: "Период приёма онлайн-заявок" } },
+      { id: "2", order: 2, date: "15-iyun", event: { uz: "Birinchi bosqich — Matematika imtihoni", en: "Stage 1 — Mathematics Exam", ru: "Этап 1 — Экзамен по математике" } },
+      { id: "3", order: 3, date: "5-iyul", event: { uz: "Ikkinchi bosqich — Ingliz tili va mantiq", en: "Stage 2 — English and Logic", ru: "Этап 2 — Английский язык и логика" } },
+      { id: "4", order: 4, date: "20–25-iyul", event: { uz: "Nomzodlar bilan suhbatlar", en: "Candidate interviews", ru: "Собеседования с кандидатами" } },
+      { id: "5", order: 5, date: "10-avgust", event: { uz: "Yakuniy natijalar e'lon qilinadi", en: "Final results announced", ru: "Объявление окончательных результатов" } },
+    ]);
+  }
+
   if (!(await fileExists("contact.json"))) {
     await writeData("contact.json", {
       phone: "+998 90 123 45 67",

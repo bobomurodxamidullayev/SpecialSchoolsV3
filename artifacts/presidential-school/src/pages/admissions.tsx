@@ -1,5 +1,5 @@
 import { useLanguage } from "@/hooks/useLanguage";
-import { useCmsAdmissions } from "@/hooks/useCms";
+import { useCmsAdmissions, useCmsAdmissionRequirements, useCmsAdmissionDates } from "@/hooks/useCms";
 import { pickLang } from "@/lib/cms";
 import { motion } from "framer-motion";
 import { CheckCircle2, Calendar, FileText, UserCheck, GraduationCap, ArrowRight, Clock } from "lucide-react";
@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 
 type Step = { title: string; desc: string };
-type DateEntry = { date: string; event: string };
 
 const STEP_COLORS = [
   { gradient: "from-blue-500 to-indigo-600", badge: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20" },
@@ -19,14 +18,23 @@ const STEP_COLORS = [
 export default function Admissions() {
   const { t, tRaw, language } = useLanguage();
   const { data: cmsStages = [] } = useCmsAdmissions();
+  const { data: cmsRequirements = [] } = useCmsAdmissionRequirements();
+  const { data: cmsDates = [] } = useCmsAdmissionDates();
+
   const stepIcons = [FileText, Calendar, UserCheck, GraduationCap];
   const cmsSteps: Step[] = cmsStages.map((s) => ({
     title: pickLang(s.name, language),
     desc: pickLang(s.description, language),
   }));
   const steps = cmsSteps.length > 0 ? cmsSteps : ((tRaw("admissions.steps") as Step[]) ?? []);
-  const requirements = (tRaw("admissions.requirements") as string[]) ?? [];
-  const dates = (tRaw("admissions.dates") as DateEntry[]) ?? [];
+
+  const requirements = cmsRequirements.length > 0
+    ? cmsRequirements.map((r) => pickLang(r.text, language))
+    : ((tRaw("admissions.requirements") as string[]) ?? []);
+
+  const dates = cmsDates.length > 0
+    ? cmsDates.map((d) => ({ date: d.date, event: pickLang(d.event, language) }))
+    : ((tRaw("admissions.dates") as { date: string; event: string }[]) ?? []);
 
   return (
     <div className="w-full">
@@ -39,17 +47,21 @@ export default function Admissions() {
             style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative container mx-auto px-4 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/15 border border-accent/30 text-accent font-semibold text-sm mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-            </span>
-            {t("admissions.applicationsOpen")}
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur border border-white/20 mb-6">
-            <GraduationCap className="h-8 w-8 text-accent" />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center gap-4 mb-6"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/15 border border-accent/30 text-accent font-semibold text-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+              </span>
+              {t("admissions.applicationsOpen")}
+            </div>
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur border border-white/20">
+              <GraduationCap className="h-8 w-8 text-accent" />
+            </div>
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-bold font-serif text-accent mb-4">
@@ -80,9 +92,7 @@ export default function Admissions() {
           </div>
 
           <div className="relative max-w-4xl mx-auto">
-            {/* connector line */}
             <div className="hidden md:block absolute top-10 left-[calc(12.5%+20px)] right-[calc(12.5%+20px)] h-0.5 bg-gradient-to-r from-blue-500 via-violet-500 via-amber-500 to-emerald-500 opacity-30" />
-
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {steps.map((step, i) => {
                 const Icon = stepIcons[i];

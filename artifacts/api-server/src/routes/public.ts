@@ -66,4 +66,20 @@ router.get("/admissions", async (_req, res) => {
   res.json({ ok: true, data: sorted });
 });
 
+router.get("/admissions-requirements", async (_req, res) => {
+  const data = await readData<Array<Record<string, unknown>>>("admissions-requirements.json", []);
+  const sorted = [...data].sort(
+    (a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0),
+  );
+  res.json({ ok: true, data: sorted });
+});
+
+router.get("/admissions-dates", async (_req, res) => {
+  const data = await readData<Array<Record<string, unknown>>>("admissions-dates.json", []);
+  const sorted = [...data].sort(
+    (a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0),
+  );
+  res.json({ ok: true, data: sorted });
+});
+
 export default router;

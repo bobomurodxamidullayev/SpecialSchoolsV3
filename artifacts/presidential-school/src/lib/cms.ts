@@ -126,3 +126,16 @@ export interface CmsAdmissionStage {
   deadline: string;
   status: string;
 }
+
+export interface CmsAdmissionRequirement {
+  id: string;
+  order: number;
+  text: LangField;
+}
+
+export interface CmsAdmissionDate {
+  id: string;
+  order: number;
+  date: string;
+  event: LangField;
+}

@@ -10,6 +10,8 @@ import {
   type CmsStudent,
   type CmsCertificate,
   type CmsAdmissionStage,
+  type CmsAdmissionRequirement,
+  type CmsAdmissionDate,
 } from "@/lib/cms";
 
 export function useCmsSettings() {
@@ -81,6 +83,22 @@ export function useCmsAdmissions() {
   return useQuery({
     queryKey: ["cms", "admissions"],
     queryFn: () => fetchContent<CmsAdmissionStage[]>("admissions"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsAdmissionRequirements() {
+  return useQuery({
+    queryKey: ["cms", "admissions-requirements"],
+    queryFn: () => fetchContent<CmsAdmissionRequirement[]>("admissions-requirements"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsAdmissionDates() {
+  return useQuery({
+    queryKey: ["cms", "admissions-dates"],
+    queryFn: () => fetchContent<CmsAdmissionDate[]>("admissions-dates"),
     staleTime: 0,
   });
 }
