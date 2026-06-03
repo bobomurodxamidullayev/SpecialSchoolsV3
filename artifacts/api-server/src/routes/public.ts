@@ -76,10 +76,43 @@ router.get("/admissions-requirements", async (_req, res) => {
 
 router.get("/admissions-dates", async (_req, res) => {
   const data = await readData<Array<Record<string, unknown>>>("admissions-dates.json", []);
-  const sorted = [...data].sort(
-    (a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0),
-  );
+  const sorted = [...data].sort((a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0));
   res.json({ ok: true, data: sorted });
+});
+
+router.get("/events", async (_req, res) => {
+  const data = await readData<Array<Record<string, unknown>>>("events.json", []);
+  const sorted = [...data].sort((a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0));
+  res.json({ ok: true, data: sorted });
+});
+
+router.get("/faq", async (_req, res) => {
+  const data = await readData<Array<Record<string, unknown>>>("faq.json", []);
+  const sorted = [...data].sort((a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0));
+  res.json({ ok: true, data: sorted });
+});
+
+router.get("/achievements-international", async (_req, res) => {
+  const data = await readData<Array<Record<string, unknown>>>("achievements-international.json", []);
+  const sorted = [...data].sort((a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0));
+  res.json({ ok: true, data: sorted });
+});
+
+router.get("/achievements-national", async (_req, res) => {
+  const data = await readData<Array<Record<string, unknown>>>("achievements-national.json", []);
+  const sorted = [...data].sort((a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0));
+  res.json({ ok: true, data: sorted });
+});
+
+router.get("/directions", async (_req, res) => {
+  const data = await readData<Array<Record<string, unknown>>>("directions.json", []);
+  const sorted = [...data].sort((a, b) => ((a["order"] as number) || 0) - ((b["order"] as number) || 0));
+  res.json({ ok: true, data: sorted });
+});
+
+router.get("/about", async (_req, res) => {
+  const data = await readData("about.json", {});
+  res.json({ ok: true, data });
 });
 
 export default router;

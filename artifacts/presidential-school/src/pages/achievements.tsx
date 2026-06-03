@@ -1,25 +1,12 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
-import { Trophy, Medal, Star, Target, Globe, Flag, Zap, ArrowRight } from "lucide-react";
-
-const internationalAchievements = [
-  { subject: "Mathematics",  competition: "IMO 2024",        award: "Gold Medal",   flag: "🇬🇧", country: "London, UK" },
-  { subject: "Physics",      competition: "APhO 2024",       award: "Silver Medal", flag: "🇯🇵", country: "Tokyo, Japan" },
-  { subject: "Informatics",  competition: "IOI 2023",        award: "Bronze Medal", flag: "🇭🇺", country: "Budapest, Hungary" },
-  { subject: "Chemistry",    competition: "IChO 2024",       award: "Silver Medal", flag: "🇸🇦", country: "Riyadh, KSA" },
-];
-
-const nationalAchievements = [
-  { subject: "Mathematics",   award: "1st Place",  count: 8, color: "from-blue-500 to-indigo-600" },
-  { subject: "Physics",       award: "1st Place",  count: 6, color: "from-violet-500 to-purple-600" },
-  { subject: "Chemistry",     award: "1st–2nd",    count: 5, color: "from-orange-500 to-red-600" },
-  { subject: "Informatics",   award: "1st Place",  count: 7, color: "from-cyan-500 to-teal-600" },
-  { subject: "Biology",       award: "Top 3",      count: 4, color: "from-emerald-500 to-green-600" },
-  { subject: "English",       award: "1st Place",  count: 3, color: "from-amber-500 to-yellow-600" },
-];
+import { Trophy, Medal, Target, Globe, Flag, Zap } from "lucide-react";
+import { useCmsAchievementsInternational, useCmsAchievementsNational } from "@/hooks/useCms";
 
 export default function Achievements() {
   const { t } = useLanguage();
+  const { data: internationalAchievements = [] } = useCmsAchievementsInternational();
+  const { data: nationalAchievements = [] } = useCmsAchievementsNational();
 
   const stats = [
     { icon: Trophy,  count: "150+", key: "totalMedals",       color: "text-accent",       bg: "bg-accent/10",      border: "border-accent/20"      },

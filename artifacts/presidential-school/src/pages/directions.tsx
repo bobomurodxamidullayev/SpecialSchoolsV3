@@ -2,6 +2,8 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
 import { Calculator, FlaskConical, Languages, Monitor, Brain, Users, ArrowRight, BookOpen } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCmsDirections } from "@/hooks/useCms";
+import { pickLang } from "@/lib/cms";
 
 const icons = [Calculator, FlaskConical, Monitor, Languages];
 
@@ -12,18 +14,20 @@ const DIR_COLORS = [
   { gradient: "from-amber-500 to-orange-600", light: "bg-amber-500/10 text-amber-600 dark:text-amber-400", badge: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30" },
 ];
 
-type Direction = { id: string; title: string; desc: string; subjects: string[]; careers: string[] };
-
 export default function Directions() {
-  const { t, tRaw } = useLanguage();
-  const directions = (tRaw("directions.items") as Direction[]) ?? [];
+  const { t, language } = useLanguage();
+  const { data: cmsDirections = [] } = useCmsDirections();
 
-  const stats = [
-    { key: "exact",    students: 320, teachers: 24, labs: 4  },
-    { key: "natural",  students: 280, teachers: 22, labs: 6  },
-    { key: "it",       students: 250, teachers: 18, labs: 5  },
-    { key: "languages",students: 350, teachers: 21, labs: 3  },
-  ];
+  const directions = cmsDirections.map((d) => ({
+    id: d.id,
+    title: pickLang(d.name, language),
+    desc: pickLang(d.desc, language),
+    subjects: pickLang(d.subjects, language).split("\n").filter(Boolean),
+    careers: pickLang(d.careers, language).split("\n").filter(Boolean),
+    students: d.students,
+    teachers: d.teachers,
+    labs: d.labs,
+  }));
 
   return (
     <div className="w-full">
@@ -85,9 +89,8 @@ export default function Directions() {
             </TabsList>
 
             {directions.map((dir, i) => {
-              const Icon = icons[i];
-              const col = DIR_COLORS[i];
-              const statData = stats[i];
+              const Icon = icons[i % icons.length];
+              const col = DIR_COLORS[i % DIR_COLORS.length];
               return (
                 <TabsContent key={dir.id} value={dir.id}>
                   <motion.div
@@ -111,19 +114,19 @@ export default function Directions() {
                       </div>
                       <div className="relative z-10 mt-8 grid grid-cols-3 gap-4 border-t border-white/20 pt-6">
                         <div>
-                          <div className="text-3xl font-bold font-serif">{statData.students}</div>
+                          <div className="text-3xl font-bold font-serif">{dir.students}</div>
                           <div className="text-xs text-white/60 uppercase tracking-wider font-semibold mt-1">
                             {t("directions.statsLabels.students")}
                           </div>
                         </div>
                         <div>
-                          <div className="text-3xl font-bold font-serif">{statData.teachers}</div>
+                          <div className="text-3xl font-bold font-serif">{dir.teachers}</div>
                           <div className="text-xs text-white/60 uppercase tracking-wider font-semibold mt-1">
                             {t("directions.statsLabels.teachers")}
                           </div>
                         </div>
                         <div>
-                          <div className="text-3xl font-bold font-serif">{statData.labs}</div>
+                          <div className="text-3xl font-bold font-serif">{dir.labs}</div>
                           <div className="text-xs text-white/60 uppercase tracking-wider font-semibold mt-1">
                             {t("directions.statsLabels.labs")}
                           </div>

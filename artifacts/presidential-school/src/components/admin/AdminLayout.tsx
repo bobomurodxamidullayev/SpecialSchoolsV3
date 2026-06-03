@@ -4,7 +4,8 @@ import { useAdmin } from "@/contexts/AdminContext";
 import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard, Settings, UserCog, BookOpen, Award, Newspaper,
-  Image, Trophy, GraduationCap, Phone, FolderOpen, Menu, X, LogOut, ChevronRight
+  Image, Trophy, GraduationCap, Phone, FolderOpen, Menu, X, LogOut, ChevronRight,
+  CalendarDays, HelpCircle, Medal, School, Info
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,11 @@ const NAV = [
   { href: "/admin/gallery", label: "Galereya", icon: Image },
   { href: "/admin/students", label: "Talabalar", icon: Trophy },
   { href: "/admin/admissions", label: "Qabul", icon: GraduationCap },
+  { href: "/admin/events", label: "Tadbirlar", icon: CalendarDays },
+  { href: "/admin/faq", label: "FAQ", icon: HelpCircle },
+  { href: "/admin/achievements", label: "Yutuqlar", icon: Medal },
+  { href: "/admin/directions", label: "Yo'nalishlar", icon: School },
+  { href: "/admin/about", label: "Maktab haqida", icon: Info },
   { href: "/admin/contact", label: "Bog'lanish", icon: Phone },
   { href: "/admin/settings", label: "Sozlamalar", icon: Settings },
   { href: "/admin/media", label: "Media", icon: FolderOpen },

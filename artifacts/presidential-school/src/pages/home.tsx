@@ -140,7 +140,7 @@ export default function Home() {
               <div className="flex items-center gap-1.5 text-slate-300 text-sm">
                 {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-accent text-accent" />)}
                 <span className="ml-1 font-semibold text-white">4.9</span>
-                <span className="text-slate-400">· Trusted by 1,200+ students</span>
+                <span className="text-slate-400">· Trusted by 1,500+ students</span>
               </div>
             </motion.div>
           </div>

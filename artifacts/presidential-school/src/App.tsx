@@ -35,6 +35,11 @@ import AdminAdmissions from "@/pages/admin/admissions";
 import AdminContact from "@/pages/admin/contact";
 import AdminSettings from "@/pages/admin/settings";
 import AdminMedia from "@/pages/admin/media";
+import AdminEvents from "@/pages/admin/events";
+import AdminFaq from "@/pages/admin/faq";
+import AdminAchievements from "@/pages/admin/achievements";
+import AdminDirections from "@/pages/admin/directions";
+import AdminAbout from "@/pages/admin/about";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +94,21 @@ function Router() {
       </Route>
       <Route path="/admin/media">
         <AdminGuard><AdminMedia /></AdminGuard>
+      </Route>
+      <Route path="/admin/events">
+        <AdminGuard><AdminEvents /></AdminGuard>
+      </Route>
+      <Route path="/admin/faq">
+        <AdminGuard><AdminFaq /></AdminGuard>
+      </Route>
+      <Route path="/admin/achievements">
+        <AdminGuard><AdminAchievements /></AdminGuard>
+      </Route>
+      <Route path="/admin/directions">
+        <AdminGuard><AdminDirections /></AdminGuard>
+      </Route>
+      <Route path="/admin/about">
+        <AdminGuard><AdminAbout /></AdminGuard>
       </Route>
       <Route>
         <Layout>

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
-import { events } from "@/data/mock-data";
+import { useCmsEvents } from "@/hooks/useCms";
+import { pickLang } from "@/lib/cms";
 import {
   Clock, MapPin, CalendarDays, Trophy, Users, Music,
   BookOpen, ChevronRight, GraduationCap,
@@ -40,18 +41,28 @@ const DEFAULT_CAT = {
 };
 const getCat = (cat: string) => CAT_CONFIG[cat] ?? DEFAULT_CAT;
 
-const allEvents = [
-  ...events.map((e) => ({ ...e, category: "Academic" })),
-  { id: 5, title: "Alumni Meetup 2024", date: "2024-05-15", time: "14:00", location: "Conference Hall", description: "A gathering for our alumni to share their university experiences with current students.", category: "Community" },
-  { id: 6, title: "Regional Debate Championship", date: "2024-05-20", time: "09:00", location: "Library", description: "Hosting the regional english debate championship finals.", category: "Competition" },
-  { id: 7, title: "End of Year Concert", date: "2024-05-25", time: "18:00", location: "Amphitheater", description: "Musical performances by student bands and the school choir.", category: "Entertainment" },
-].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-const categoryKeys = ["All", ...Array.from(new Set(allEvents.map((e) => e.category)))];
-
 export default function Events() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { data: cmsEvents = [] } = useCmsEvents();
   const [activeCategory, setActiveCategory] = useState("All");
+
+  const allEvents = useMemo(
+    () =>
+      [...cmsEvents]
+        .map((e) => ({
+          id: e.id,
+          title: pickLang(e.title, language),
+          date: e.date,
+          time: e.time,
+          location: pickLang(e.location, language),
+          description: pickLang(e.description, language),
+          category: e.category,
+        }))
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
+    [cmsEvents, language],
+  );
+
+  const categoryKeys = useMemo(() => ["All", ...Array.from(new Set(allEvents.map((e) => e.category)))], [allEvents]);
 
   const filtered = activeCategory === "All" ? allEvents : allEvents.filter((e) => e.category === activeCategory);
   const catCounts: Record<string, number> = { All: allEvents.length };

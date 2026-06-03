@@ -1,12 +1,13 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
-import { faqs } from "@/data/mock-data";
+import { useCmsFaq } from "@/hooks/useCms";
+import { pickLang } from "@/lib/cms";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Search, HelpCircle, GraduationCap, BookOpen, Building2, MessageCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const CATEGORY_CONFIG: Record<string, { icon: React.ComponentType<{ className?: string }>; badge: string; dot: string }> = {
   Admissions: { icon: GraduationCap, badge: "bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30", dot: "bg-blue-500" },
@@ -15,12 +16,24 @@ const CATEGORY_CONFIG: Record<string, { icon: React.ComponentType<{ className?: 
 };
 const DEFAULT_CAT = { icon: MessageCircle, badge: "bg-primary/15 text-primary border-primary/30", dot: "bg-primary" };
 
-const uniqueCategories = Array.from(new Set(faqs.map((f) => f.category)));
-
 export default function FAQ() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { data: cmsFaqs = [] } = useCmsFaq();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+
+  const faqs = useMemo(
+    () =>
+      cmsFaqs.map((f) => ({
+        id: f.id,
+        category: f.category,
+        question: pickLang(f.question, language),
+        answer: pickLang(f.answer, language),
+      })),
+    [cmsFaqs, language],
+  );
+
+  const uniqueCategories = useMemo(() => Array.from(new Set(faqs.map((f) => f.category))), [faqs]);
 
   const filteredFaqs = faqs.filter((faq) => {
     const matchesSearch =

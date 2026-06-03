@@ -16,7 +16,7 @@ import { Plus, Pencil, Trash2, Search, Star } from "lucide-react";
 type LangObj = { uz: string; en: string; ru: string };
 interface NewsItem { id: string; title: LangObj; slug: string; content: LangObj; category: string; author: string; readTime: string; publishDate: string; coverImage: string; status: string; featured: boolean }
 const CATS = ["Achievements", "Facilities", "Events", "Academic", "Other"];
-const EMPTY: Omit<NewsItem, "id"> = { title: { uz: "", en: "", ru: "" }, slug: "", content: { uz: "", en: "", ru: "" }, category: "Achievements", author: "", readTime: "3", publishDate: new Date().toISOString().slice(0, 10), coverImage: "", status: "draft", featured: false };
+const EMPTY: Omit<NewsItem, "id"> = { title: { uz: "", en: "", ru: "" }, slug: "", content: { uz: "", en: "", ru: "" }, category: "Achievements", author: "", readTime: "3", publishDate: new Date().toISOString().slice(0, 10), coverImage: "", status: "published", featured: false };
 
 const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").slice(0, 80);
 

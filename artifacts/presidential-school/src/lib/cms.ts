@@ -139,3 +139,75 @@ export interface CmsAdmissionDate {
   date: string;
   event: LangField;
 }
+
+export interface CmsEvent {
+  id: string;
+  order: number;
+  title: LangField;
+  date: string;
+  time: string;
+  location: LangField;
+  description: LangField;
+  category: string;
+}
+
+export interface CmsFaq {
+  id: string;
+  order: number;
+  category: string;
+  question: LangField;
+  answer: LangField;
+}
+
+export interface CmsAchievementInternational {
+  id: string;
+  order: number;
+  subject: string;
+  competition: string;
+  award: string;
+  flag: string;
+  country: string;
+}
+
+export interface CmsAchievementNational {
+  id: string;
+  order: number;
+  subject: string;
+  award: string;
+  count: number;
+  color: string;
+}
+
+export interface CmsDirection {
+  id: string;
+  order: number;
+  name: LangField;
+  desc: LangField;
+  students: number;
+  teachers: number;
+  labs: number;
+  subjects: LangField;
+  careers: LangField;
+}
+
+export interface CmsPhilosophyItem {
+  id: string;
+  order: number;
+  title: LangField;
+  desc: LangField;
+}
+
+export interface CmsTimelineItem {
+  id: string;
+  order: number;
+  year: string;
+  title: LangField;
+  desc: LangField;
+}
+
+export interface CmsAbout {
+  mission: LangField;
+  vision: LangField;
+  philosophy: CmsPhilosophyItem[];
+  timeline: CmsTimelineItem[];
+}

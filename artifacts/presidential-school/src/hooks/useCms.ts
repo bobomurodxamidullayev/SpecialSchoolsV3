@@ -12,6 +12,12 @@ import {
   type CmsAdmissionStage,
   type CmsAdmissionRequirement,
   type CmsAdmissionDate,
+  type CmsEvent,
+  type CmsFaq,
+  type CmsAchievementInternational,
+  type CmsAchievementNational,
+  type CmsDirection,
+  type CmsAbout,
 } from "@/lib/cms";
 
 export function useCmsSettings() {
@@ -99,6 +105,54 @@ export function useCmsAdmissionDates() {
   return useQuery({
     queryKey: ["cms", "admissions-dates"],
     queryFn: () => fetchContent<CmsAdmissionDate[]>("admissions-dates"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsEvents() {
+  return useQuery({
+    queryKey: ["cms", "events"],
+    queryFn: () => fetchContent<CmsEvent[]>("events"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsFaq() {
+  return useQuery({
+    queryKey: ["cms", "faq"],
+    queryFn: () => fetchContent<CmsFaq[]>("faq"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsAchievementsInternational() {
+  return useQuery({
+    queryKey: ["cms", "achievements-international"],
+    queryFn: () => fetchContent<CmsAchievementInternational[]>("achievements-international"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsAchievementsNational() {
+  return useQuery({
+    queryKey: ["cms", "achievements-national"],
+    queryFn: () => fetchContent<CmsAchievementNational[]>("achievements-national"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsDirections() {
+  return useQuery({
+    queryKey: ["cms", "directions"],
+    queryFn: () => fetchContent<CmsDirection[]>("directions"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsAbout() {
+  return useQuery({
+    queryKey: ["cms", "about"],
+    queryFn: () => fetchContent<CmsAbout>("about"),
     staleTime: 0,
   });
 }
