@@ -34,6 +34,24 @@
     "images": []
   },
   {
+    "id": "c5dd8130-f1a7-4e2c-a084-252919ddee88",
+    "images": [
+      "/api/uploads/1780475638736-cc768a3856e5.jpg"
+    ],
+    "title": {
+      "uz": "suvvv",
+      "en": "water",
+      "ru": "voda"
+    },
+    "description": {
+      "uz": "suvv",
+      "en": "water",
+      "ru": "vodaa"
+    },
+    "category": "Events",
+    "date": "2026-06-03"
+  },
+  {
     "id": "06169220-8aa5-4a14-9b5e-a07a3504dddd",
     "images": [
       "/api/uploads/1780480653684-2b19da6888c5.jpg"

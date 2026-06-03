@@ -85,7 +85,7 @@ export default function AdminLogin() {
           </Button>
         </form>
 
-        <p className="text-center text-xs text-slate-600 mt-4">Standart: admin / admin123</p>
+        <p className="text-center text-xs text-slate-600 mt-4">If you are not admin - it is not your business</p>
       </div>
     </div>
   );
