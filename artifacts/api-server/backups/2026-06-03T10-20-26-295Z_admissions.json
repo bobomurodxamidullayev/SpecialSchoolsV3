@@ -24,7 +24,7 @@
       "ru": "Вступительный экзамен"
     },
     "description": {
-      "uz": "Matematika va ingliz tilidan yozma imtihon ",
+      "uz": "Matematika va ingliz tilidan yozma imtihon bo'lib o'tadi",
       "en": "Written exam in Mathematics and English",
       "ru": "Письменный экзамен по математике и английскому языку"
     },
@@ -35,7 +35,7 @@
     "id": "3",
     "order": 3,
     "name": {
-      "uz": "Suhbat",
+      "uz": "Suhbattt",
       "en": "Interview",
       "ru": "Собеседование"
     },

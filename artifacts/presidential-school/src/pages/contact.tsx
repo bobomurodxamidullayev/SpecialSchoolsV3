@@ -77,20 +77,32 @@ export default function Contact() {
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="bg-sidebar py-20 border-b border-border">
-        <div className="container mx-auto px-4 text-center">
+      <section className="relative bg-gradient-to-br from-[#0f1b4d] via-[#1a2a7a] to-[#0d1a5c] py-20 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary/20 rounded-full blur-[80px]" />
+        </div>
+        <div className="relative container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur border border-white/20 mb-6"
+          >
+            <Mail className="h-8 w-8 text-accent" />
+          </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold font-serif mb-4"
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl font-bold font-serif text-accent mb-3"
           >
             {t("nav.contact")}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            transition={{ delay: 0.15 }}
+            className="text-slate-300 text-lg max-w-2xl mx-auto"
           >
             {t("contact.heroSubtitle")}
           </motion.p>

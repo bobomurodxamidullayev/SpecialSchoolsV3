@@ -2,7 +2,7 @@
   {
     "id": "1",
     "name": {
-      "uz": "Azizbek Rahimov Azizbekovichch",
+      "uz": "Azizbek Rahimov Azizbekovich",
       "en": "Azizbek Rahimov",
       "ru": "Азизбек Рахимов"
     },
@@ -21,14 +21,14 @@
       "en": "",
       "ru": ""
     },
-    "phone": "+998 90 123 45 68",
+    "phone": "+998 90 123 45 67",
     "email": "director@qch-school.uz",
     "receptionTime": {
       "uz": "Dushanba–Juma, 09:00–18:00",
       "en": "Mon–Fri, 09:00–18:00",
       "ru": "Пн–Пт, 09:00–18:00"
     },
-    "photo": "/api/uploads/1780492779458-f5ee7f374900.webp"
+    "photo": ""
   },
   {
     "id": "2",
@@ -60,5 +60,36 @@
       "ru": "Пн–Сб, 08:30–17:00"
     },
     "photo": ""
+  },
+  {
+    "id": "0b8eb17d-bea7-4da6-bb56-55c0c0d05c72",
+    "name": {
+      "uz": "Boss Bek",
+      "en": "",
+      "ru": ""
+    },
+    "position": {
+      "uz": "Boss",
+      "en": "",
+      "ru": ""
+    },
+    "degree": {
+      "uz": "Expert",
+      "en": "",
+      "ru": ""
+    },
+    "bio": {
+      "uz": "dasd",
+      "en": "",
+      "ru": ""
+    },
+    "phone": "+9931992391 ",
+    "email": "bobomuroxamidullayev@gmail.com",
+    "receptionTime": {
+      "uz": "dasdas",
+      "en": "",
+      "ru": ""
+    },
+    "photo": "/api/uploads/1780482192527-a96c05cf425a.jpg"
   }
 ]

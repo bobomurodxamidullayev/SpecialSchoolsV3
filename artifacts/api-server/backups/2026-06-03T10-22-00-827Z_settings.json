@@ -5,7 +5,7 @@
     "ru": "Школа QCh"
   },
   "slogan": {
-    "uz": "Prezident maktabi",
+    "uz": "Prezident maktabii",
     "en": "Presidential Specialized School",
     "ru": "Президентская специализированная школа"
   },
@@ -15,13 +15,13 @@
     "ru": "Ведущее специализированное учебное заведение Узбекистана"
   },
   "heroTitle": {
-    "uz": "Kelajak bugundan boshlanadi qani goo",
+    "uz": "Kelajak bugundan boshlanadi",
     "en": "The Future Starts Today",
     "ru": "Будущее начинается сегодня"
   },
   "heroStats": [
     {
-      "value": "1500+",
+      "value": "1200+",
       "label": {
         "uz": "O'quvchi",
         "en": "Students",
