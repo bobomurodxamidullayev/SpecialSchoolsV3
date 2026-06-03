@@ -1,0 +1,455 @@
+You are a Senior Full Stack Engineer.
+
+Your task is to build a COMPLETE PRODUCTION-READY ADMIN PANEL for my existing Specialized School website.
+
+==================================================
+CORE REQUIREMENTS
+==================================================
+
+The website already exists.
+
+DO NOT redesign the public website.
+
+ONLY create the Admin Panel and integrate it with existing pages.
+
+Admin URL:
+
+/admin
+
+==================================================
+STORAGE SYSTEM
+==================================================
+
+CRITICAL:
+
+NO DATABASE ALLOWED.
+
+DO NOT USE:
+
+- PostgreSQL
+- MySQL
+- MongoDB
+- Firebase
+- Supabase
+- Prisma
+
+Use FILE-BASED STORAGE ONLY.
+
+Store all content inside:
+
+/data/settings.json
+/data/administration.json
+/data/teachers.json
+/data/certificates.json
+/data/news.json
+/data/gallery.json
+/data/students.json
+/data/admissions.json
+
+Images:
+
+/public/uploads/
+
+Admin operations must directly read and write JSON files.
+
+==================================================
+AUTHENTICATION
+==================================================
+
+Create secure Admin Login.
+
+Files:
+
+/data/admin.json
+
+Features:
+
+- Username
+- Password Hash
+- Session Authentication
+- Logout
+
+Do not expose admin routes publicly.
+
+Protect all admin pages.
+
+==================================================
+MULTI LANGUAGE SYSTEM
+==================================================
+
+Every editable content must support:
+
+UZ
+EN
+RU
+
+Example:
+
+{
+  "title": {
+    "uz": "...",
+    "en": "...",
+    "ru": "..."
+  }
+}
+
+Admin forms must show all 3 language inputs together.
+
+No translation field should be omitted.
+
+==================================================
+GLOBAL SETTINGS PAGE
+==================================================
+
+Create Settings module.
+
+Admin can edit:
+
+School Name
+
+School Slogan
+
+School Description
+
+Hero Text
+
+Hero Statistics
+
+Admissions Button Text
+
+Phone Numbers
+
+Emails
+
+Address
+
+Working Hours
+
+Google Maps URL
+
+Social Media Links
+
+Footer Content
+
+SEO Meta Title
+
+SEO Meta Description
+
+SEO Keywords
+
+Copyright
+
+All homepage static texts
+
+All contact page static texts
+
+All section titles
+
+All page headers
+
+Everything must be editable without touching code.
+
+Store inside:
+
+settings.json
+
+==================================================
+ADMINISTRATION MODULE
+==================================================
+
+CRUD Operations
+
+Add Administrator
+
+Edit Administrator
+
+Delete Administrator
+
+Fields:
+
+- Full Name
+- Position
+- Academic Degree
+- Biography
+- Phone
+- Email
+- Reception Time
+- Photo
+
+Multilingual support.
+
+==================================================
+TEACHERS MODULE
+==================================================
+
+CRUD Operations
+
+Fields:
+
+- Full Name
+- Subject
+- Category
+- Degree
+- Experience
+- University
+- Graduation Year
+- Phone
+- Email
+- Biography
+- Photo
+
+Filtering support.
+
+==================================================
+CERTIFICATES MODULE
+==================================================
+
+CRUD Operations
+
+Fields:
+
+- Certificate Name
+- Subject
+- Level
+- Quantity
+- Year
+
+Admin can increase/decrease statistics.
+
+==================================================
+NEWS MODULE
+==================================================
+
+Full Blog CMS
+
+Add News
+
+Edit News
+
+Delete News
+
+Draft Mode
+
+Published Mode
+
+Featured News
+
+Fields:
+
+- Title
+- Slug
+- Content
+- Category
+- Author
+- Reading Time
+- Publish Date
+- Cover Image
+- Gallery Images
+
+All multilingual.
+
+==================================================
+GALLERY MODULE
+==================================================
+
+CRUD Operations
+
+Categories:
+
+- Events
+- Lessons
+- Competitions
+- School Life
+
+Fields:
+
+- Title
+- Description
+- Images
+- Date
+
+Multiple Image Upload.
+
+==================================================
+STUDENTS MODULE
+==================================================
+
+Featured Champions Management.
+
+Fields:
+
+- Full Name
+- Achievement
+- Olympiad
+- Medal Type
+- Country
+- Year
+- Biography
+- Photo
+
+Multilingual.
+
+==================================================
+ADMISSIONS MODULE
+==================================================
+
+Editable Admissions Process.
+
+Fields:
+
+- Stage Name
+- Description
+- Deadline
+- Status
+
+Examples:
+
+Application
+Exam
+Interview
+Enrollment
+
+Admin can reorder stages.
+
+==================================================
+CONTACT MODULE
+==================================================
+
+Manage:
+
+Phone Numbers
+
+Emails
+
+Address
+
+Office Hours
+
+Map URL
+
+Contact Form Settings
+
+==================================================
+MEDIA LIBRARY
+==================================================
+
+Create Media Manager.
+
+Features:
+
+- Upload Image
+- Delete Image
+- Preview Image
+- Copy URL
+- Search Image
+
+Store files in:
+
+/public/uploads
+
+==================================================
+DASHBOARD
+==================================================
+
+Professional dashboard.
+
+Show:
+
+Total Teachers
+
+Total Administrators
+
+Total News
+
+Total Gallery Images
+
+Total Students
+
+Recent Activities
+
+Latest Updates
+
+==================================================
+UI REQUIREMENTS
+==================================================
+
+Premium Dark Theme.
+
+Use existing website design language.
+
+Responsive.
+
+Modern cards.
+
+Tables with:
+
+Search
+
+Pagination
+
+Sorting
+
+Filters
+
+Bulk Actions
+
+Confirmation Modals
+
+Loading States
+
+Success Notifications
+
+Error Notifications
+
+==================================================
+FILE SAFETY
+==================================================
+
+Before every write:
+
+1. Validate Data
+2. Create Backup Copy
+3. Save JSON
+4. Verify JSON Integrity
+
+Create:
+
+/backups/
+
+Auto backup before changes.
+
+==================================================
+CODE QUALITY
+==================================================
+
+Generate:
+
+Reusable Components
+
+Clean Architecture
+
+Type Safety
+
+Validation
+
+Error Handling
+
+Production Ready Code
+
+No mock data.
+
+No placeholders.
+
+No TODO comments.
+
+No incomplete functions.
+
+Every feature must be fully functional.
+
+==================================================
+FINAL RESULT
+==================================================
+
+Build a complete CMS-like Admin Panel that allows school staff to manage ALL website content without editing code.
+
+Every important text, number, image, title, statistic, person profile, contact detail, certificate, news article, gallery item, admission stage and homepage content must be editable through the Admin Panel.

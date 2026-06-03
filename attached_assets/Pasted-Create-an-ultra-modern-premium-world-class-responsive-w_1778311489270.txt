@@ -1,0 +1,399 @@
+Create an ultra-modern, premium, world-class responsive website for a Presidential School / Specialized School in Uzbekistan.
+
+The website must look visually similar in quality and professionalism to elite educational institution websites, but MORE MODERN, MORE PREMIUM, MORE INTERACTIVE, and MORE POLISHED than ordinary school templates.
+
+The design inspiration is:
+
+Presidential Schools
+Specialized Schools
+Modern university landing pages
+Apple-level smooth UI
+Stripe-style clean sections
+Framer-quality animations
+Modern glassmorphism + minimalism
+Elegant educational branding
+
+The website must NOT look generic or repetitive.
+
+GENERAL REQUIREMENTS
+
+Build a COMPLETE PROFESSIONAL MULTI-PAGE WEBSITE with:
+
+Fully responsive design
+Pixel-perfect UI
+Modern UX
+Smooth animations
+High performance
+SEO optimized
+Accessibility optimized
+Production-ready structure
+Clean scalable architecture
+
+The website must support:
+
+Uzbek
+English
+Russian
+
+All 3 languages must work flawlessly without layout breaking or translation bugs.
+
+Implement:
+
+Dark mode
+Light mode
+
+Theme switching must be:
+
+Smooth
+Animated
+Persistent using localStorage
+Fully bug-free
+
+The design in dark mode and light mode must BOTH feel premium and beautiful.
+
+DESIGN SYSTEM
+
+Use a modern professional design system:
+
+Rounded corners
+Elegant spacing
+Soft shadows
+Modern typography
+Premium gradients
+Glassmorphism where appropriate
+Interactive hover effects
+Smooth transitions
+Scroll animations
+Animated counters
+Floating elements
+Dynamic hero section
+Professional iconography
+
+Use modern fonts:
+
+Inter
+Poppins
+Manrope
+
+Color palette:
+
+Deep royal blue
+Elegant gold
+White
+Dark navy
+Soft neutral grays
+
+The UI must feel:
+
+Elite
+Academic
+Futuristic
+Trustworthy
+Premium
+TECHNOLOGY STACK
+
+Use:
+
+Next.js latest version
+TypeScript
+Tailwind CSS
+Framer Motion
+Shadcn UI
+Lucide Icons
+i18n internationalization
+SEO optimization
+Responsive grid system
+
+Architecture must be scalable for future CMS integration.
+
+WEBSITE STRUCTURE
+
+Create these pages:
+
+Home
+About School
+Administration
+Teachers
+News
+Certificates & Achievements
+Gallery
+Admissions 2026
+Contact
+Student Achievements
+Educational Directions
+Events
+FAQ
+HOME PAGE STRUCTURE
+HERO SECTION
+
+Create a powerful hero section with:
+
+Large modern headline
+Animated background
+School building image/video
+Floating UI elements
+Premium CTA buttons
+Statistics cards
+Animated gradients
+Smooth parallax effect
+
+Example content:
+
+“Quyi Chirchiq Specialized School”
+“Education for the Future”
+
+Hero section must feel world-class.
+
+FEATURES SECTION
+
+Display:
+
+Modern laboratories
+Qualified teachers
+International achievements
+STEM education
+Robotics
+Languages
+Olympiad preparation
+
+Use animated cards with hover effects.
+
+ABOUT SECTION
+
+Include:
+
+Mission
+Vision
+Educational philosophy
+School history
+Modern image gallery
+Interactive timeline
+EDUCATIONAL DIRECTIONS
+
+Create beautiful cards for:
+
+Exact Sciences
+Natural Sciences
+Languages
+IT & Robotics
+Mathematics
+Physics
+Chemistry
+Biology
+
+Cards must have:
+
+Hover animation
+Icon
+Glow effects
+Interactive transitions
+ADMINISTRATION SECTION
+
+Create premium profile cards for:
+
+Principal
+Vice Principal
+Advisors
+Psychologist
+
+Cards must include:
+
+Photo
+Position
+Contact
+Social links
+Animated hover effect
+TEACHERS SECTION
+
+Create a modern searchable teacher directory with:
+
+Subject filtering
+Search functionality
+Animated cards
+Modal profiles
+Experience info
+Achievements
+Contact buttons
+
+Make it look like a professional educational platform.
+
+ACHIEVEMENTS SECTION
+
+Create animated achievements section:
+
+Olympiad winners
+Robotics achievements
+National competitions
+International certificates
+
+Include:
+
+Animated counters
+Interactive timeline
+Achievement carousel
+CERTIFICATES SECTION
+
+Display:
+
+Certificates
+Awards
+Medals
+Recognition documents
+
+Use:
+
+Masonry layout
+Hover zoom
+Modal preview
+Category filtering
+NEWS SECTION
+
+Create a professional blog/news system with:
+
+Featured article
+Category filters
+Search
+Pagination
+Rich cards
+Smooth animations
+
+Each article page must support:
+
+SEO metadata
+Social sharing
+Comments UI
+Related posts
+GALLERY SECTION
+
+Create an advanced gallery:
+
+Masonry layout
+Image lightbox
+Video support
+Category filtering
+Smooth loading animations
+
+Categories:
+
+Events
+Lessons
+Competitions
+School life
+Graduation
+Robotics
+ADMISSION PAGE
+
+Build a professional Admission 2026 section with:
+
+Requirements
+Timeline
+Application steps
+FAQ
+Application CTA
+Downloadable forms
+Animated process cards
+CONTACT PAGE
+
+Include:
+
+Interactive map
+Contact form
+Social media links
+Phone numbers
+Email addresses
+Office hours
+
+Contact form must have:
+
+Validation
+Success animations
+Error handling
+FOOTER
+
+Create a premium footer with:
+
+School logo
+Quick links
+Contacts
+Social icons
+Newsletter subscription
+Copyright
+Back to top button
+ADVANCED FEATURES
+
+Implement:
+
+Smooth page transitions
+Scroll progress indicator
+Lazy loading
+Skeleton loading
+Micro interactions
+Floating navigation
+Sticky header
+Dynamic active menu
+Animated counters
+FAQ accordion
+Testimonials slider
+Video modal
+Image optimization
+SEO schema
+OpenGraph tags
+Sitemap
+Robots.txt
+PERFORMANCE REQUIREMENTS
+
+Website must achieve:
+
+Fast loading speed
+High Lighthouse score
+Mobile optimization
+Accessibility optimization
+SEO optimization
+ANIMATIONS
+
+Use premium animations:
+
+Framer Motion
+Fade-in
+Stagger animations
+Scroll reveal
+Hover glow
+Magnetic buttons
+Smooth transitions
+Animated gradients
+Floating particles
+
+Animations must feel elegant, not excessive.
+
+UI/UX QUALITY LEVEL
+
+The final result must feel:
+
+Like a real elite institution website
+More premium than ordinary templates
+Similar quality to Apple, Stripe, Vercel, Framer inspired interfaces
+Clean and futuristic
+Modern and trustworthy
+
+Avoid:
+
+Generic layouts
+Cheap gradients
+Repetitive cards
+Basic school template appearance
+Old-fashioned UI
+IMPORTANT
+
+The entire project must be:
+
+Fully production-ready
+Beautiful on all devices
+Modern in every section
+Visually impressive
+Professional enough for a Presidential School
+Unique and memorable
+
+Every section should feel handcrafted and premium.
+
+DO NOT create a simple template.
+Create a REAL WORLD-CLASS EDUCATIONAL PLATFORM EXPERIENCE.
