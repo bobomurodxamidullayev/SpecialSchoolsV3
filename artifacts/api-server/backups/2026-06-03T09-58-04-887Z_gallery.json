@@ -48,23 +48,5 @@
     },
     "category": "Events",
     "date": "2026-06-03"
-  },
-  {
-    "id": "06169220-8aa5-4a14-9b5e-a07a3504dddd",
-    "images": [
-      "/api/uploads/1780480653684-2b19da6888c5.jpg"
-    ],
-    "title": {
-      "uz": "Schooo lifeee",
-      "en": "dasda",
-      "ru": "dasda"
-    },
-    "description": {
-      "uz": "dasda",
-      "en": "dasdasd",
-      "ru": "dasdadas"
-    },
-    "category": "School Life",
-    "date": "2026-06-03"
   }
 ]

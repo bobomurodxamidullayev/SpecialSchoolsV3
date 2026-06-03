@@ -146,17 +146,18 @@ export default function Gallery() {
                     {img.src ? (
                       <img src={img.src} alt={img.label} className="absolute inset-0 w-full h-full object-cover" />
                     ) : (
-                    <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
+                      <>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
+                        <div className="absolute inset-0 opacity-[0.08]"
+                          style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                          <span className="text-5xl opacity-60 group-hover:opacity-90 group-hover:scale-110 transition-all duration-300 select-none filter drop-shadow-lg">
+                            {icon}
+                          </span>
+                        </div>
+                      </>
                     )}
-                    <div className="absolute inset-0 opacity-[0.08]"
-                      style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
                     <div className="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl" />
-
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                      <span className="text-5xl opacity-60 group-hover:opacity-90 group-hover:scale-110 transition-all duration-300 select-none filter drop-shadow-lg">
-                        {icon}
-                      </span>
-                    </div>
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2">
                       <ZoomIn className="h-7 w-7 text-white drop-shadow" />
@@ -193,19 +194,25 @@ export default function Gallery() {
           <DialogDescription id="gallery-desc" className="sr-only">Photo lightbox view</DialogDescription>
           {selectedItem && (
             <div className="relative rounded-2xl overflow-hidden">
-              <div className={`w-full aspect-[4/3] bg-gradient-to-br ${GRADIENTS[selectedItem.category] ?? "from-slate-700 to-slate-900"} relative`}>
-                <div className="absolute inset-0 opacity-[0.08]"
-                  style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "36px 36px" }} />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-8xl select-none drop-shadow-2xl">{ICONS[selectedItem.category] ?? "🖼️"}</span>
-                </div>
+              <div className={`w-full aspect-[4/3] relative ${!selectedItem.src ? `bg-gradient-to-br ${GRADIENTS[selectedItem.category] ?? "from-slate-700 to-slate-900"}` : "bg-black"}`}>
+                {selectedItem.src ? (
+                  <img src={selectedItem.src} alt={selectedItem.label} className="absolute inset-0 w-full h-full object-contain" />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 opacity-[0.08]"
+                      style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "36px 36px" }} />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-8xl select-none drop-shadow-2xl">{ICONS[selectedItem.category] ?? "🖼️"}</span>
+                    </div>
+                  </>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <span className={`inline-flex text-xs font-bold px-3 py-1 rounded-full border mb-2 ${CAT_BADGE[selectedItem.category] ?? "bg-white/10 text-white border-white/20"}`}>
                     {t(`gallery.categories.${selectedItem.category}`)}
                   </span>
                   <h3 className="text-white text-xl font-bold">{selectedItem.label}</h3>
-                  <p className="text-white/60 text-sm mt-1">#{String(selectedItem.id).padStart(2, "0")} · {selectedIndex !== null ? selectedIndex + 1 : 0} / {filtered.length}</p>
+                  <p className="text-white/60 text-sm mt-1">{selectedIndex !== null ? selectedIndex + 1 : 0} / {filtered.length}</p>
                 </div>
               </div>
 

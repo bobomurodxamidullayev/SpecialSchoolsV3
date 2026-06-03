@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useAdmin } from "@/contexts/AdminContext";
 import { LangInput } from "@/components/admin/LangInput";
@@ -17,6 +18,7 @@ const EMPTY: Omit<Cert, "id"> = { name: { uz: "", en: "", ru: "" }, subject: "",
 export default function AdminCertificates() {
   const { api } = useAdmin();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [items, setItems] = useState<Cert[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,7 @@ export default function AdminCertificates() {
       if (editing) await api(`/certificates/${editing.id}`, { method: "PUT", body: JSON.stringify(form) });
       else await api("/certificates", { method: "POST", body: JSON.stringify(form) });
       toast({ title: editing ? "Yangilandi" : "Qo'shildi" }); setModalOpen(false); load();
+      queryClient.invalidateQueries({ queryKey: ["cms", "certificates"] });
     } catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
     finally { setSaving(false); }
   };
@@ -50,7 +53,7 @@ export default function AdminCertificates() {
 
   const remove = async () => {
     if (!deleteId) return;
-    try { await api(`/certificates/${deleteId}`, { method: "DELETE" }); toast({ title: "O'chirildi" }); setDeleteId(null); load(); }
+    try { await api(`/certificates/${deleteId}`, { method: "DELETE" }); toast({ title: "O'chirildi" }); setDeleteId(null); load(); queryClient.invalidateQueries({ queryKey: ["cms", "certificates"] }); }
     catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
   };
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useAdmin } from "@/contexts/AdminContext";
 import { LangInput } from "@/components/admin/LangInput";
@@ -19,6 +20,7 @@ const EMPTY: Omit<Stage, "id" | "order"> = { name: { uz: "", en: "", ru: "" }, d
 export default function AdminAdmissions() {
   const { api } = useAdmin();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [items, setItems] = useState<Stage[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -38,13 +40,14 @@ export default function AdminAdmissions() {
       if (editing) await api(`/admissions/${editing.id}`, { method: "PUT", body: JSON.stringify(form) });
       else await api("/admissions", { method: "POST", body: JSON.stringify(form) });
       toast({ title: editing ? "Yangilandi" : "Qo'shildi" }); setModalOpen(false); load();
+      queryClient.invalidateQueries({ queryKey: ["cms", "admissions"] });
     } catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
     finally { setSaving(false); }
   };
 
   const remove = async () => {
     if (!deleteId) return;
-    try { await api(`/admissions/${deleteId}`, { method: "DELETE" }); toast({ title: "O'chirildi" }); setDeleteId(null); load(); }
+    try { await api(`/admissions/${deleteId}`, { method: "DELETE" }); toast({ title: "O'chirildi" }); setDeleteId(null); load(); queryClient.invalidateQueries({ queryKey: ["cms", "admissions"] }); }
     catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
   };
 

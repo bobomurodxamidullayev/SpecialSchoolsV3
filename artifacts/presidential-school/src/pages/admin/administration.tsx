@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useAdmin } from "@/contexts/AdminContext";
 import { LangInput } from "@/components/admin/LangInput";
@@ -21,6 +22,7 @@ const EMPTY: Omit<Staff, "id"> = {
 export default function AdminAdministration() {
   const { api } = useAdmin();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [items, setItems] = useState<Staff[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -56,6 +58,7 @@ export default function AdminAdministration() {
       }
       setModalOpen(false);
       load();
+      queryClient.invalidateQueries({ queryKey: ["cms", "administration"] });
     } catch (e) {
       toast({ title: "Xato", description: (e as Error).message, variant: "destructive" });
     } finally {
@@ -71,6 +74,7 @@ export default function AdminAdministration() {
       toast({ title: "O'chirildi" });
       setDeleteId(null);
       load();
+      queryClient.invalidateQueries({ queryKey: ["cms", "administration"] });
     } catch (e) {
       toast({ title: "Xato", description: (e as Error).message, variant: "destructive" });
     } finally {

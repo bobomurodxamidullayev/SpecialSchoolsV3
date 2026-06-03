@@ -16,7 +16,7 @@ export function useCmsSettings() {
   return useQuery({
     queryKey: ["cms", "settings"],
     queryFn: () => fetchContent<CmsSettings>("settings"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -24,7 +24,7 @@ export function useCmsContact() {
   return useQuery({
     queryKey: ["cms", "contact"],
     queryFn: () => fetchContent<CmsContact>("contact"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -32,7 +32,7 @@ export function useCmsAdministration() {
   return useQuery({
     queryKey: ["cms", "administration"],
     queryFn: () => fetchContent<CmsAdmin[]>("administration"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -40,7 +40,7 @@ export function useCmsTeachers() {
   return useQuery({
     queryKey: ["cms", "teachers"],
     queryFn: () => fetchContent<CmsTeacher[]>("teachers"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -49,7 +49,7 @@ export function useCmsNews(featured?: boolean) {
   return useQuery({
     queryKey: ["cms", "news", featured ?? false],
     queryFn: () => fetchContent<CmsNews[]>(q),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -57,7 +57,7 @@ export function useCmsGallery() {
   return useQuery({
     queryKey: ["cms", "gallery"],
     queryFn: () => fetchContent<CmsGalleryItem[]>("gallery"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -65,7 +65,7 @@ export function useCmsStudents() {
   return useQuery({
     queryKey: ["cms", "students"],
     queryFn: () => fetchContent<CmsStudent[]>("students"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -73,7 +73,7 @@ export function useCmsCertificates() {
   return useQuery({
     queryKey: ["cms", "certificates"],
     queryFn: () => fetchContent<CmsCertificate[]>("certificates"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }
 
@@ -81,6 +81,6 @@ export function useCmsAdmissions() {
   return useQuery({
     queryKey: ["cms", "admissions"],
     queryFn: () => fetchContent<CmsAdmissionStage[]>("admissions"),
-    staleTime: 60_000,
+    staleTime: 0,
   });
 }

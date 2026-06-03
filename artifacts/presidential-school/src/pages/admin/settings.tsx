@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useAdmin } from "@/contexts/AdminContext";
 import { LangInput } from "@/components/admin/LangInput";
@@ -28,6 +29,7 @@ const DEF: Settings = {
 export default function AdminSettings() {
   const { api } = useAdmin();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [form, setForm] = useState<Settings>(DEF);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -43,7 +45,7 @@ export default function AdminSettings() {
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
-    try { await api("/settings", { method: "PUT", body: JSON.stringify(form) }); toast({ title: "Sozlamalar saqlandi" }); }
+    try { await api("/settings", { method: "PUT", body: JSON.stringify(form) }); toast({ title: "Sozlamalar saqlandi" }); queryClient.invalidateQueries({ queryKey: ["cms", "settings"] }); }
     catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
     finally { setSaving(false); }
   };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useAdmin } from "@/contexts/AdminContext";
 import { LangInput } from "@/components/admin/LangInput";
@@ -31,6 +32,7 @@ const GRADE_COLOR: Record<string, string> = {
 export default function AdminTeachers() {
   const { api } = useAdmin();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [items, setItems] = useState<Teacher[]>([]);
   const [search, setSearch] = useState("");
   const [subjectFilter, setSubjectFilter] = useState("All");
@@ -61,13 +63,14 @@ export default function AdminTeachers() {
       if (editing) { await api(`/teachers/${editing.id}`, { method: "PUT", body: JSON.stringify(form) }); toast({ title: "Yangilandi" }); }
       else { await api("/teachers", { method: "POST", body: JSON.stringify(form) }); toast({ title: "Qo'shildi" }); }
       setModalOpen(false); load();
+      queryClient.invalidateQueries({ queryKey: ["cms", "teachers"] });
     } catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
     finally { setSaving(false); }
   };
 
   const remove = async () => {
     if (!deleteId) return; setDeleting(true);
-    try { await api(`/teachers/${deleteId}`, { method: "DELETE" }); toast({ title: "O'chirildi" }); setDeleteId(null); load(); }
+    try { await api(`/teachers/${deleteId}`, { method: "DELETE" }); toast({ title: "O'chirildi" }); setDeleteId(null); load(); queryClient.invalidateQueries({ queryKey: ["cms", "teachers"] }); }
     catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
     finally { setDeleting(false); }
   };

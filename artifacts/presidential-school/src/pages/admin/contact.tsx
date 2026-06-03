@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useAdmin } from "@/contexts/AdminContext";
 import { LangInput } from "@/components/admin/LangInput";
@@ -17,6 +18,7 @@ const EMPTY: ContactData = { phone: "", phone2: "", email: "", email2: "", addre
 export default function AdminContact() {
   const { api } = useAdmin();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [form, setForm] = useState<ContactData>(EMPTY);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -28,7 +30,7 @@ export default function AdminContact() {
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault(); setSaving(true);
-    try { await api("/contact", { method: "PUT", body: JSON.stringify(form) }); toast({ title: "Saqlandi" }); }
+    try { await api("/contact", { method: "PUT", body: JSON.stringify(form) }); toast({ title: "Saqlandi" }); queryClient.invalidateQueries({ queryKey: ["cms", "contact"] }); }
     catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
     finally { setSaving(false); }
   };
