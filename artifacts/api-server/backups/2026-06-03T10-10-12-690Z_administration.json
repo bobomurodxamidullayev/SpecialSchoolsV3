@@ -2,7 +2,7 @@
   {
     "id": "1",
     "name": {
-      "uz": "Azizbek Rahimov Azizbekovich",
+      "uz": "Azizbek Rahimovich Bekkk",
       "en": "Azizbek Rahimov",
       "ru": "Азизбек Рахимов"
     },
@@ -33,7 +33,7 @@
   {
     "id": "2",
     "name": {
-      "uz": "Dilnoza Karimovaa",
+      "uz": "Dilnoza Karimova",
       "en": "Dilnoza Karimova",
       "ru": "Дилноза Каримова"
     },
@@ -60,36 +60,5 @@
       "ru": "Пн–Сб, 08:30–17:00"
     },
     "photo": ""
-  },
-  {
-    "id": "0b8eb17d-bea7-4da6-bb56-55c0c0d05c72",
-    "name": {
-      "uz": "Boss Bek",
-      "en": "",
-      "ru": ""
-    },
-    "position": {
-      "uz": "Boss",
-      "en": "",
-      "ru": ""
-    },
-    "degree": {
-      "uz": "Expert",
-      "en": "",
-      "ru": ""
-    },
-    "bio": {
-      "uz": "dasd",
-      "en": "",
-      "ru": ""
-    },
-    "phone": "+9931992391 ",
-    "email": "bobomuroxamidullayev@gmail.com",
-    "receptionTime": {
-      "uz": "dasdas",
-      "en": "",
-      "ru": ""
-    },
-    "photo": "/api/uploads/1780481654776-1d10d4ba5da3.jpg"
   }
 ]

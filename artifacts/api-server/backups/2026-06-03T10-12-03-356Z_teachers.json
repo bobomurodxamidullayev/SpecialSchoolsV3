@@ -83,22 +83,5 @@
       "ru": ""
     },
     "photo": ""
-  },
-  {
-    "id": "1fcc6eed-63db-45ad-9fbb-3cfe60c84d73",
-    "name": "Bobomurod Xamidullayev",
-    "subject": "IT",
-    "grade": "Yosh mutaxassis",
-    "phone": "+998991234567",
-    "university": "Uni Pro",
-    "graduationYear": 2002,
-    "experience": 3,
-    "email": "bobomurod@gmail.com",
-    "photo": "/api/uploads/1780481520766-fcc9c8ff6865.jpg",
-    "bio": {
-      "uz": "uzb",
-      "en": "",
-      "ru": ""
-    }
   }
 ]

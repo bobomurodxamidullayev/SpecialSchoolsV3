@@ -20,7 +20,7 @@
     },
     "subject": "English",
     "level": "International",
-    "quantity": 38,
+    "quantity": 32,
     "year": 2024
   },
   {
@@ -70,17 +70,5 @@
     "level": "International",
     "quantity": 1,
     "year": 2026
-  },
-  {
-    "id": "dde79f40-f82d-4615-b2c2-a215977dd2da",
-    "name": {
-      "uz": "MULTILEVEL",
-      "en": "",
-      "ru": ""
-    },
-    "subject": "MULTILEVEL",
-    "level": "National",
-    "quantity": 1,
-    "year": 2002
   }
 ]

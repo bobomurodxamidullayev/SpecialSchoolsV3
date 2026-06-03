@@ -134,11 +134,15 @@ export default function Administration() {
                       ))}
                     </div>
                     {/* Avatar */}
-                    <div className="relative w-28 h-28 rounded-full bg-white/20 border-4 border-white/30 flex items-center justify-center mb-4 shadow-xl">
-                      <svg viewBox="0 0 80 80" width="64" height="64" fill="white" className="opacity-90">
-                        <circle cx="40" cy="28" r="16" />
-                        <path d="M8 76c0-17.673 14.327-32 32-32s32 14.327 32 32H8z" />
-                      </svg>
+                    <div className="relative w-28 h-28 rounded-full bg-white/20 border-4 border-white/30 flex items-center justify-center mb-4 shadow-xl overflow-hidden">
+                      {principal.avatar ? (
+                        <img src={principal.avatar} alt={principal.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <svg viewBox="0 0 80 80" width="64" height="64" fill="white" className="opacity-90">
+                          <circle cx="40" cy="28" r="16" />
+                          <path d="M8 76c0-17.673 14.327-32 32-32s32 14.327 32 32H8z" />
+                        </svg>
+                      )}
                     </div>
                     <span className={`text-xs font-bold px-3 py-1 rounded-full ${cfg.badge} backdrop-blur`}>
                       {principal.role}
@@ -238,11 +242,15 @@ export default function Administration() {
                         />
                       ))}
                     </div>
-                    <div className="relative w-20 h-20 rounded-full bg-white/20 border-4 border-white/30 flex items-center justify-center mb-3 shadow-lg group-hover:scale-105 transition-transform duration-300">
-                      <svg viewBox="0 0 80 80" width="48" height="48" fill="white" className="opacity-90">
-                        <circle cx="40" cy="28" r="16" />
-                        <path d="M8 76c0-17.673 14.327-32 32-32s32 14.327 32 32H8z" />
-                      </svg>
+                    <div className="relative w-20 h-20 rounded-full bg-white/20 border-4 border-white/30 flex items-center justify-center mb-3 shadow-lg group-hover:scale-105 transition-transform duration-300 overflow-hidden">
+                      {person.avatar ? (
+                        <img src={person.avatar} alt={person.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <svg viewBox="0 0 80 80" width="48" height="48" fill="white" className="opacity-90">
+                          <circle cx="40" cy="28" r="16" />
+                          <path d="M8 76c0-17.673 14.327-32 32-32s32 14.327 32 32H8z" />
+                        </svg>
+                      )}
                     </div>
                     <span className={`text-xs font-bold px-3 py-1 rounded-full ${cfg.badge} backdrop-blur`}>
                       {person.role}

@@ -377,14 +377,17 @@ export default function Teachers() {
                           className={`rounded-2xl overflow-hidden border ${cfg.borderColor} bg-card shadow-sm hover:shadow-lg transition-all group`}
                         >
                           {/* Colored avatar area */}
-                          <div className={`${cfg.avatarBg} flex items-center justify-center py-6 relative`}>
-                            {/* Person silhouette */}
-                            <div className={`${cfg.avatarIcon}`}>
-                              <svg viewBox="0 0 80 80" width="64" height="64" fill="currentColor">
-                                <circle cx="40" cy="26" r="14" />
-                                <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30H10z" />
-                              </svg>
-                            </div>
+                          <div className={`${cfg.avatarBg} flex items-center justify-center py-6 relative overflow-hidden`}>
+                            {teacher.photo ? (
+                              <img src={teacher.photo} alt={teacher.name} className="w-20 h-20 rounded-full object-cover border-2 border-white/30" />
+                            ) : (
+                              <div className={`${cfg.avatarIcon}`}>
+                                <svg viewBox="0 0 80 80" width="64" height="64" fill="currentColor">
+                                  <circle cx="40" cy="26" r="14" />
+                                  <path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30H10z" />
+                                </svg>
+                              </div>
+                            )}
                           </div>
 
                           {/* Info area */}

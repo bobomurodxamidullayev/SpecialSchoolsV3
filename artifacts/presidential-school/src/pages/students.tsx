@@ -155,10 +155,14 @@ export default function Students() {
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/15 text-white border border-white/20 mb-4`}>
                           <LvlIcon className="h-3 w-3" /> {student.level}
                         </span>
-                        <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center mb-4 shadow-lg">
-                          <span className="text-2xl font-serif font-bold text-white">
-                            {student.name.split(" ").map(w => w[0]).slice(0, 2).join("")}
-                          </span>
+                        <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center mb-4 shadow-lg overflow-hidden">
+                          {student.photo ? (
+                            <img src={student.photo} alt={student.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="text-2xl font-serif font-bold text-white">
+                              {student.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}
+                            </span>
+                          )}
                         </div>
                         <h3 className={`text-2xl font-bold text-white mb-1`}>{student.name}</h3>
                         <p className={`${lvl.accentColor} font-semibold text-sm`}>{student.subject} · {student.year}</p>
@@ -193,8 +197,12 @@ export default function Students() {
                   <div className={`h-2 bg-gradient-to-r ${lvl.gradient}`} />
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center text-lg font-bold font-serif shrink-0">
-                        {student.name.split(" ").map(w => w[0]).slice(0, 2).join("")}
+                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center text-lg font-bold font-serif shrink-0 overflow-hidden">
+                        {student.photo ? (
+                          <img src={student.photo} alt={student.name} className="w-full h-full object-cover" />
+                        ) : (
+                          student.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")
+                        )}
                       </div>
                       <div className={`flex items-center gap-1 ${aw?.color ?? "text-yellow-500"}`}>
                         <AwardIcon className="h-5 w-5" />

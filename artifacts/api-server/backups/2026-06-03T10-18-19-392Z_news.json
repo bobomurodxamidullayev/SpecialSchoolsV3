@@ -1,26 +1,5 @@
 [
   {
-    "id": "b5d73197-b815-41b1-a4fe-d0a524b39c70",
-    "status": "draft",
-    "featured": false,
-    "title": {
-      "uz": "MAY",
-      "en": "",
-      "ru": ""
-    },
-    "slug": "may",
-    "content": {
-      "uz": "DADMAY",
-      "en": "",
-      "ru": ""
-    },
-    "category": "Other",
-    "author": "",
-    "readTime": "3",
-    "publishDate": "2026-06-03",
-    "coverImage": "/api/uploads/1780481897831-e31997171c91.jpg"
-  },
-  {
     "id": "1",
     "title": {
       "uz": "Xalqaro matematika olimpiadasida oltin medal",
