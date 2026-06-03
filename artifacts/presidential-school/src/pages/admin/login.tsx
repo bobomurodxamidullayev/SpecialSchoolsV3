@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAdmin } from "@/contexts/AdminContext";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -11,8 +11,14 @@ export default function AdminLogin() {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { login } = useAdmin();
+  const { login, isAuthenticated } = useAdmin();
   const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/admin");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +26,6 @@ export default function AdminLogin() {
     setLoading(true);
     try {
       await login(username, password);
-      navigate("/admin");
     } catch (err) {
       setError((err as Error).message || "Noto'g'ri ma'lumotlar");
     } finally {
