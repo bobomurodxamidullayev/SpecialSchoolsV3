@@ -1,5 +1,26 @@
 [
   {
+    "id": "7a0f369a-9546-4d28-87e4-5c77841f3e03",
+    "status": "published",
+    "featured": false,
+    "title": {
+      "uz": "sasa",
+      "en": "",
+      "ru": ""
+    },
+    "slug": "ssasasa-sadas-dasd--das-ddsa",
+    "content": {
+      "uz": "asaas",
+      "en": "",
+      "ru": ""
+    },
+    "category": "Achievements",
+    "author": "",
+    "readTime": "1",
+    "publishDate": "2026-06-04",
+    "coverImage": "/api/uploads/1780546808217-3412fd0d8da3.jpg"
+  },
+  {
     "id": "b5d73197-b815-41b1-a4fe-d0a524b39c70",
     "status": "published",
     "featured": false,
