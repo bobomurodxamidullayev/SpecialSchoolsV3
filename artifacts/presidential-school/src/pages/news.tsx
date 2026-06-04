@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCmsNews } from "@/hooks/useCms";
-import { pickLang } from "@/lib/cms";
+import { pickLang, formatDate, formatReadTime } from "@/lib/cms";
 import { Clock, ChevronRight, Trophy, Building2, CalendarDays, BookOpen, Newspaper, ArrowRight, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -69,10 +69,20 @@ function CategoryBadge({ category }: { category: string }) {
   );
 }
 
-function CardVisual({ category, size = "md" }: { category: string; size?: "sm" | "md" | "lg" }) {
+function CardVisual({ category, size = "md", image }: { category: string; size?: "sm" | "md" | "lg"; image?: string }) {
   const cfg = getCat(category);
   const Icon = cfg.icon;
   const iconSize = size === "lg" ? "h-16 w-16" : size === "md" ? "h-10 w-10" : "h-8 w-8";
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt=""
+        className="w-full h-full object-cover"
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+      />
+    );
+  }
   return (
     <div className={`w-full h-full bg-gradient-to-br ${cfg.gradient} relative overflow-hidden`}>
       <div className="absolute inset-0 opacity-[0.07]"
@@ -221,7 +231,7 @@ export default function News() {
                 <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
                   className="mb-12 rounded-3xl overflow-hidden border border-border bg-card shadow-xl group cursor-pointer hover:shadow-2xl transition-all duration-300 grid md:grid-cols-[1fr_1.1fr]">
                   <div className="min-h-[280px] md:min-h-[420px] relative overflow-hidden">
-                    <CardVisual category={featured.category} size="lg" />
+                    <CardVisual category={featured.category} size="lg" image={featured.coverImage || undefined} />
                     {/* Article number */}
                     <div className="absolute top-5 left-5">
                       <span className="bg-black/40 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur-sm">
@@ -233,7 +243,7 @@ export default function News() {
                   <div className="p-8 md:p-12 flex flex-col justify-center">
                     <div className="flex flex-wrap items-center gap-3 mb-5">
                       <CategoryBadge category={featured.category} />
-                      <span className="text-xs text-muted-foreground font-medium">{featured.date}</span>
+                      <span className="text-xs text-muted-foreground font-medium">{formatDate(featured.date)}</span>
                     </div>
                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold font-serif mb-5 group-hover:text-primary transition-colors leading-tight">
                       {featured.title}
@@ -250,7 +260,7 @@ export default function News() {
                           {featured.author}
                         </span>
                         <span className="flex items-center gap-1.5">
-                          <Clock className="h-3.5 w-3.5" /> {featured.readTime}
+                          <Clock className="h-3.5 w-3.5" /> {formatReadTime(featured.readTime)}
                         </span>
                       </div>
                       <span className="flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2.5 transition-all">
@@ -271,19 +281,19 @@ export default function News() {
                       transition={{ delay: i * 0.07 }}
                       className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 hover:border-primary/30 transition-all duration-300 group cursor-pointer flex flex-col">
                       <div className="aspect-[16/9] relative overflow-hidden">
-                        <CardVisual category={item.category} size="sm" />
+                        <CardVisual category={item.category} size="sm" image={item.coverImage || undefined} />
                         <div className="absolute top-3 left-3">
                           <CategoryBadge category={item.category} />
                         </div>
                         <div className="absolute bottom-3 right-3">
                           <span className="text-[10px] bg-black/50 text-white px-2 py-1 rounded-full backdrop-blur-sm font-medium flex items-center gap-1">
-                            <Clock className="h-2.5 w-2.5" /> {item.readTime}
+                            <Clock className="h-2.5 w-2.5" /> {formatReadTime(item.readTime)}
                           </span>
                         </div>
                       </div>
 
                       <div className="p-5 flex flex-col flex-1">
-                        <p className="text-[11px] text-muted-foreground mb-3 font-medium">{item.date}</p>
+                        <p className="text-[11px] text-muted-foreground mb-3 font-medium">{formatDate(item.date)}</p>
                         <h3 className="text-lg font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-snug flex-1">
                           {item.title}
                         </h3>

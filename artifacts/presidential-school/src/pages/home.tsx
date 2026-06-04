@@ -8,7 +8,7 @@ import {
   Building2, Newspaper, Sparkles,
 } from "lucide-react";
 import { useCmsSettings, useCmsAdministration, useCmsNews } from "@/hooks/useCms";
-import { pickLang } from "@/lib/cms";
+import { pickLang, formatDate, formatReadTime } from "@/lib/cms";
 
 const NEWS_CAT: Record<string, { gradient: string; icon: React.ComponentType<{ className?: string }> }> = {
   Achievements: { gradient: "from-amber-500 via-yellow-400 to-orange-500", icon: Trophy },
@@ -284,13 +284,13 @@ export default function Home() {
                   </div>
                   <div className="absolute bottom-3 right-3">
                     <span className="text-[10px] bg-black/40 text-white px-2 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
-                      <Clock className="h-2.5 w-2.5" /> {item.readTime}
+                      <Clock className="h-2.5 w-2.5" /> {formatReadTime(item.readTime)}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-5">
-                  <p className="text-xs text-muted-foreground mb-2 font-medium">{item.date}</p>
+                  <p className="text-xs text-muted-foreground mb-2 font-medium">{formatDate(item.date)}</p>
                   <h4 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2 leading-snug">{item.title}</h4>
                   <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{item.excerpt}</p>
                   <div className="flex items-center text-sm font-semibold text-primary gap-1 group-hover:gap-2 transition-all">

@@ -2,6 +2,22 @@ import type { Language } from "@/data/translations";
 
 export type LangField = { uz: string; en: string; ru: string };
 
+export function formatDate(dateStr: string): string {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  return `${dd}.${mm}.${yyyy}`;
+}
+
+export function formatReadTime(rt: string | number): string {
+  const n = parseInt(String(rt), 10);
+  if (isNaN(n)) return String(rt);
+  return `${n} min`;
+}
+
 export function pickLang(field: LangField | string | undefined, lang: Language): string {
   if (!field) return "";
   if (typeof field === "string") return field;
