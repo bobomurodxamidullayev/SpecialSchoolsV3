@@ -1,82 +1,62 @@
 import { Router } from "express";
 import multer from "multer";
-import path from "path";
 import crypto from "crypto";
-import admin from "firebase-admin";
-import "../../lib/dataManager.js"; // Firebase ulanishini chaqirish
-import { requireAdmin } from "../../middlewares/requireAdmin.js";
+import { readData, writeData } from "../../lib/dataManager.js";
 
-// Vercel uchun faylni papkaga emas, operativ xotiraga (Buffer) saqlab olamiz
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
-  fileFilter: (_req, file, cb) => {
-    if (/^image\/(jpeg|png|gif|webp|svg\+xml)$/.test(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error("Only image files are allowed"));
-    }
-  },
 });
 
 const router = Router();
-const BUCKET_NAME = "school-eece2.firebasestorage.app"; // Sizning Firebase xotirangiz
 
-// 401 xatosi bermasligi uchun requireAdmin vaqtincha rasm yuklashdan olib tashlandi
 router.post("/", upload.single("file"), async (req, res) => {
   if (!req.file) {
-    res.status(400).json({ ok: false, error: "No file uploaded" });
+    res.status(400).json({ ok: false, error: "Fayl yuklanmadi" });
     return;
   }
 
   try {
-    const ext = path.extname(req.file.originalname).toLowerCase();
-    const name = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${ext}`;
+    const apiKey = process.env.IMGBB_API_KEY;
+    if (!apiKey) throw new Error("ImgBB API kaliti topilmadi");
 
-    const bucket = admin.storage().bucket(BUCKET_NAME);
-    const file = bucket.file(name);
+    // ImgBB ga jo'natish uchun rasmni Base64 formatga o'tkazish
+    const base64Image = req.file.buffer.toString("base64");
 
-    // Rasmni Firebase'ga yozish
-    await file.save(req.file.buffer, {
-      metadata: { contentType: req.file.mimetype }
+    // ImgBB API ga so'rov yuborish
+    const form = new URLSearchParams();
+    form.append("key", apiKey);
+    form.append("image", base64Image);
+
+    const response = await fetch("https://api.imgbb.com/1/upload", {
+      method: "POST",
+      body: form,
     });
 
-    // Rasm uchun ochiq manzil yaratish
-    const url = `https://firebasestorage.googleapis.com/v0/b/${BUCKET_NAME}/o/${encodeURIComponent(name)}?alt=media`;
+    const result = await response.json();
+    if (!result.success) throw new Error("ImgBB rasmni qabul qilmadi");
 
-    res.json({
-      ok: true,
-      data: { filename: name, url, size: req.file.size },
-    });
+    const url = result.data.url;
+    const name = `${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
+
+    // Rasm ma'lumotini Firebase bazamizdagi "media" ro'yxatiga yozib qo'yamiz
+    let mediaList = await readData<Record<string, any>[]>("media.json", []);
+    mediaList = Array.isArray(mediaList) ? mediaList : Object.values(mediaList || {});
+
+    const newMedia = {
+      filename: name,
+      url: url,
+      size: req.file.size,
+      createdAt: new Date().toISOString()
+    };
+
+    mediaList.push(newMedia);
+    await writeData("media.json", mediaList);
+
+    res.json({ ok: true, data: newMedia });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ ok: false, error: "Upload failed to Firebase" });
-  }
-});
-
-router.post("/multiple", upload.array("files", 20), async (req, res) => {
-  const files = req.files as Express.Multer.File[];
-  if (!files?.length) {
-    res.status(400).json({ ok: false, error: "No files uploaded" });
-    return;
-  }
-
-  try {
-    const bucket = admin.storage().bucket(BUCKET_NAME);
-    const data = await Promise.all(files.map(async (f) => {
-      const ext = path.extname(f.originalname).toLowerCase();
-      const name = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${ext}`;
-      const file = bucket.file(name);
-
-      await file.save(f.buffer, { metadata: { contentType: f.mimetype } });
-      const url = `https://firebasestorage.googleapis.com/v0/b/${BUCKET_NAME}/o/${encodeURIComponent(name)}?alt=media`;
-
-      return { filename: name, url, size: f.size };
-    }));
-
-    res.json({ ok: true, data });
-  } catch (err) {
-    res.status(500).json({ ok: false, error: "Multiple upload failed" });
+    console.error("Rasm yuklashda xato:", err);
+    res.status(500).json({ ok: false, error: "Serverga rasm yuklashda xatolik yuz berdi" });
   }
 });
 
