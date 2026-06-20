@@ -1,43 +1,44 @@
 import { Router } from "express";
-import fs from "fs/promises";
-import path from "path";
-import { UPLOADS_DIR } from "../../lib/dataManager.js";
+import admin from "firebase-admin";
+import "../../lib/dataManager.js";
 import { requireAdmin } from "../../middlewares/requireAdmin.js";
 
 const router = Router();
+const BUCKET_NAME = "school-eece2.firebasestorage.app";
 
 router.get("/", requireAdmin, async (req, res) => {
   try {
-    await fs.mkdir(UPLOADS_DIR, { recursive: true });
-    const files = await fs.readdir(UPLOADS_DIR);
-    const images = files.filter((f) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(f));
-    const data = await Promise.all(
-      images.map(async (filename) => {
-        const stat = await fs.stat(path.join(UPLOADS_DIR, filename));
-        return {
-          filename,
-          url: `/api/uploads/${filename}`,
-          size: stat.size,
-          createdAt: stat.birthtime.toISOString(),
-        };
-      })
-    );
-    data.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    const bucket = admin.storage().bucket(BUCKET_NAME);
+    const [files] = await bucket.getFiles();
+
+    const images = files.filter(f => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(f.name));
+
+    const data = await Promise.all(images.map(async (file) => {
+      const [metadata] = await file.getMetadata();
+      return {
+        filename: file.name,
+        url: `https://firebasestorage.googleapis.com/v0/b/${BUCKET_NAME}/o/${encodeURIComponent(file.name)}?alt=media`,
+        size: Number(metadata.size),
+        createdAt: metadata.timeCreated,
+      };
+    }));
+
+    data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     res.json({ ok: true, data });
-  } catch {
+  } catch (err) {
+    console.error(err);
     res.json({ ok: true, data: [] });
   }
 });
 
 router.delete("/:filename", requireAdmin, async (req, res) => {
-  const raw = req.params["filename"];
-  const safe = path.basename(Array.isArray(raw) ? raw[0] : (raw ?? ""));
-  if (!safe) { res.status(400).json({ ok: false, error: "Invalid filename" }); return; }
   try {
-    await fs.unlink(path.join(UPLOADS_DIR, safe));
+    const safe = req.params.filename;
+    const bucket = admin.storage().bucket(BUCKET_NAME);
+    await bucket.file(safe).delete();
     res.json({ ok: true });
-  } catch {
-    res.status(404).json({ ok: false, error: "File not found" });
+  } catch (err) {
+    res.status(404).json({ ok: false, error: "File not found in Firebase" });
   }
 });
 
