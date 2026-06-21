@@ -51092,7 +51092,7 @@ var directions_default = router19;
 var import_express20 = __toESM(require_express2(), 1);
 var router20 = (0, import_express20.Router)();
 var FILE15 = "about.json";
-router20.get("/", requireAdmin, async (_req, res) => {
+router20.get("/", async (_req, res) => {
   const data = await readData(FILE15, {});
   res.json({ ok: true, data });
 });
