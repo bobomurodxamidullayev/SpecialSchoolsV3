@@ -1,6 +1,6 @@
 import express, { type Express } from "express";
 import cors from "cors";
-import session from "express-session";
+import cookieSession from "cookie-session";
 import pinoHttp from "pino-http";
 import path from "path";
 import router from "./routes/index.js";
@@ -8,6 +8,8 @@ import { logger } from "./lib/logger.js";
 import { initializeData, UPLOADS_DIR } from "./lib/dataManager.js";
 
 const app: Express = express();
+
+app.set("trust proxy", 1);
 
 app.use(
   pinoHttp({
@@ -31,17 +33,13 @@ app.use(
 );
 
 app.use(
-  session({
-    secret: process.env["SESSION_SECRET"] || "qch-admin-secret-2024-x9k",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24,
-      sameSite: "lax",
-    },
-  }),
+  cookieSession({
+    name: "admin_session",
+    keys: [process.env["SESSION_SECRET"] || "qch-admin-secret-2024-x9k"],
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 kun saqlaydi
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  })
 );
 
 app.use(express.json({ limit: "10mb" }));
