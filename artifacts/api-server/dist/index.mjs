@@ -51290,9 +51290,8 @@ app.use(
     name: "admin_session",
     keys: [process.env["SESSION_SECRET"] || "qch-admin-secret-2024-x9k"],
     maxAge: 30 * 24 * 60 * 60 * 1e3,
-    // 30 kun saqlaydi
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax"
+    secure: true,
+    sameSite: "none"
   })
 );
 app.use(import_express27.default.json({ limit: "10mb" }));
