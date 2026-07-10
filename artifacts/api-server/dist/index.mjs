@@ -50633,7 +50633,8 @@ var router10 = (0, import_express10.Router)();
 var FILE5 = "gallery.json";
 router10.get("/", requireAdmin, async (req, res) => {
   const data = await readData(FILE5, []);
-  res.json({ ok: true, data });
+  const normalized = data.map((item) => ({ ...item, images: Array.isArray(item["images"]) ? item["images"] : [] }));
+  res.json({ ok: true, data: normalized });
 });
 router10.post("/", requireAdmin, async (req, res) => {
   const items = await readData(FILE5, []);
@@ -51304,8 +51305,7 @@ initializeData().catch((err) => {
 var app_default = app;
 
 // src/index.ts
-var rawPort = process.env["PORT"];
-var port = rawPort && rawPort !== "8080" ? Number(rawPort) : 5001;
+var port = Number(process.env["PORT"]) || 8080;
 var server = app_default.listen(port, "0.0.0.0", () => {
   logger.info({ port }, "Server listening");
 });

@@ -6,8 +6,9 @@ const router = Router();
 const FILE = "gallery.json";
 
 router.get("/", requireAdmin, async (req, res) => {
-  const data = await readData(FILE, []);
-  res.json({ ok: true, data });
+  const data = await readData<Record<string, unknown>[]>(FILE, []);
+  const normalized = data.map((item) => ({ ...item, images: Array.isArray(item["images"]) ? item["images"] : [] }));
+  res.json({ ok: true, data: normalized });
 });
 
 router.post("/", requireAdmin, async (req, res) => {

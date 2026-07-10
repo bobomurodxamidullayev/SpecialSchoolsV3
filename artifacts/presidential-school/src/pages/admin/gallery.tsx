@@ -30,7 +30,7 @@ export default function AdminGallery() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  const load = () => { api<{ ok: boolean; data: GalleryItem[] }>("/gallery").then((d) => setItems(d.data)).catch(() => {}).finally(() => setLoading(false)); };
+  const load = () => { api<{ ok: boolean; data: GalleryItem[] }>("/gallery").then((d) => setItems((d.data ?? []).map((g) => ({ ...g, images: Array.isArray(g.images) ? g.images : [] })))).catch(() => {}).finally(() => setLoading(false)); };
   useEffect(() => { load(); }, []);
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModalOpen(true); };
   const openEdit = (g: GalleryItem) => { setEditing(g); setForm({ ...g, images: [...g.images] }); setModalOpen(true); };
