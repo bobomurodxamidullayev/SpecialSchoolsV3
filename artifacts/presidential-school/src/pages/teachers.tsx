@@ -17,6 +17,7 @@ import {
   Code2,
   Landmark,
   Trophy,
+  Map,
   LayoutGrid,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -33,6 +34,7 @@ type SubjectKey =
   | "Russian"
   | "IT"
   | "History"
+  | "Geography"
   | "Sports";
 
 const subjectConfig: Record<
@@ -138,6 +140,16 @@ const subjectConfig: Record<
     borderColor: "border-orange-200 dark:border-orange-700",
     iconBg: "bg-orange-100 dark:bg-orange-900/40",
   },
+  Geography: {
+    bg: "bg-lime-50 dark:bg-lime-950/20",
+    avatarBg: "bg-lime-200 dark:bg-lime-800/50",
+    avatarIcon: "text-lime-600 dark:text-lime-400",
+    headerColor: "text-lime-600 dark:text-lime-400",
+    badgeBg: "bg-lime-100 dark:bg-lime-900/40",
+    badgeText: "text-lime-700 dark:text-lime-300",
+    borderColor: "border-lime-200 dark:border-lime-700",
+    iconBg: "bg-lime-100 dark:bg-lime-900/40",
+  },
   Sports: {
     bg: "bg-cyan-50 dark:bg-cyan-950/20",
     avatarBg: "bg-cyan-200 dark:bg-cyan-800/50",
@@ -175,7 +187,7 @@ const gradeConfig: Record<string, { bg: string; text: string; border: string }> 
 
 const subjectOrder: SubjectKey[] = [
   "English","Math","Physics","Chemistry","Biology",
-  "Uzbek","Russian","IT","History","Sports",
+  "Uzbek","Russian","IT","History","Geography","Sports",
 ];
 
 const subjectIcons: Record<SubjectKey, LucideIcon> = {
@@ -188,6 +200,7 @@ const subjectIcons: Record<SubjectKey, LucideIcon> = {
   Russian: BookMarked,
   IT: Code2,
   History: Landmark,
+  Geography: Map,
   Sports: Trophy,
 };
 
@@ -210,6 +223,7 @@ export default function Teachers() {
       Russian: t("teachers.subjects.Russian"),
       IT: t("teachers.subjects.IT"),
       History: t("teachers.subjects.History"),
+      Geography: t("teachers.subjects.Geography"),
       Sports: t("teachers.subjects.Sports"),
     };
     return map[key] ?? key;

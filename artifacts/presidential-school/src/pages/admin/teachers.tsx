@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 
-const SUBJECTS = ["English", "Math", "Physics", "Chemistry", "Biology", "Uzbek", "Russian", "IT", "History", "Sports", "Other"];
+const SUBJECTS = ["English", "Math", "Physics", "Chemistry", "Biology", "Uzbek", "Russian", "IT", "History", "Geography", "Sports", "Other"];
 const GRADES = ["Oliy toifa", "1-toifa", "2-toifa", "Yosh mutaxassis"];
 
 type LangObj = { uz: string; en: string; ru: string };
