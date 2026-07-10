@@ -272,7 +272,10 @@ export default function AdminCertificates() {
                 </div>
 
                 <div className="bg-[#0c1428] border border-white/10 rounded-xl p-5 space-y-4">
-                  <h3 className="text-white font-semibold">Yillik o'sish ma'lumotlari</h3>
+                  <div>
+                    <h3 className="text-white font-semibold">Yillik jami sertifikat soni (grafik uchun)</h3>
+                    <p className="text-slate-400 text-xs mt-1">Har bir yil uchun <span className="text-amber-400 font-semibold">barcha</span> sertifikatlar yig'indisini kiriting: fan natijalari + ingliz tili + xorijiy sertifikatlar</p>
+                  </div>
                   <div className="space-y-2">
                     {engData.growthData.map((row, i) => (
                       <div key={i} className="flex items-center gap-3">

@@ -116,12 +116,15 @@ export default function Certificates() {
     return englishCerts.levels;
   }, [englishCerts]);
 
+  const englishLevelsTotal = useMemo(() =>
+    englishLevels.reduce((s, l) => s + l.count, 0),
+    [englishLevels]
+  );
+
   const growthData = useMemo(() => {
     if (!englishCerts?.growthData?.length) return [];
     return [...englishCerts.growthData].sort((a, b) => a.year.localeCompare(b.year));
   }, [englishCerts]);
-
-  const totalEnglish = useMemo(() => growthData.reduce((s, d) => s + d.count, 0), [growthData]);
 
   const growthPeriod = useMemo(() => {
     if (!growthData.length) return "";
@@ -148,6 +151,9 @@ export default function Certificates() {
     nationalSubjects.reduce((sum, s) => sum + s.grades.reduce((a, g) => a + g.count, 0), 0),
     [nationalSubjects]
   );
+
+  // True total = subject olympiad results + English CEFR levels + foreign/international certs
+  const allCertsTotal = nationalTotal + englishLevelsTotal + foreignTotal;
 
   return (
     <div className="w-full">
@@ -192,8 +198,8 @@ export default function Certificates() {
             className="inline-grid grid-cols-3 divide-x divide-white/20 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden"
           >
             {[
-              { label: t("certificates.stats.total"), value: String(nationalTotal + foreignTotal) },
-              { label: t("certificates.stats.national"), value: String(nationalTotal) },
+              { label: t("certificates.stats.total"), value: String(allCertsTotal) },
+              { label: t("certificates.stats.national"), value: String(nationalTotal + englishLevelsTotal) },
               { label: t("certificates.stats.foreign"), value: String(foreignTotal) },
             ].map((s, i) => (
               <div key={i} className="px-8 py-5 text-center">
@@ -378,7 +384,7 @@ export default function Certificates() {
                     <div className="flex items-center justify-center gap-2 mt-2 text-sm text-muted-foreground">
                       <span className="inline-block w-3 h-3 rounded-full bg-primary" />
                       <span>{t("certificates.chart.legend")}</span>
-                      <span className="font-bold text-foreground">{totalEnglish} {t("certificates.taLabel")}</span>
+                      <span className="font-bold text-foreground">{allCertsTotal} {t("certificates.taLabel")}</span>
                       {growthPeriod && <><span>|</span><span>{t("certificates.chart.period")}{growthPeriod}</span></>}
                     </div>
 
