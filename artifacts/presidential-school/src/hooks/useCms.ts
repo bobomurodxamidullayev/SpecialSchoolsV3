@@ -18,6 +18,8 @@ import {
   type CmsAchievementNational,
   type CmsDirection,
   type CmsAbout,
+  type CmsSubjectResult,
+  type CmsEnglishCerts,
 } from "@/lib/cms";
 
 export function useCmsSettings() {
@@ -153,6 +155,22 @@ export function useCmsAbout() {
   return useQuery({
     queryKey: ["cms", "about"],
     queryFn: () => fetchContent<CmsAbout>("about"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsSubjectResults() {
+  return useQuery({
+    queryKey: ["cms", "subject-results"],
+    queryFn: () => fetchContent<CmsSubjectResult[]>("subject-results"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsEnglishCerts() {
+  return useQuery({
+    queryKey: ["cms", "english-certs"],
+    queryFn: () => fetchContent<CmsEnglishCerts>("english-certs"),
     staleTime: 0,
   });
 }

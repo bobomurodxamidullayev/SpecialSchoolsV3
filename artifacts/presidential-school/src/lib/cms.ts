@@ -227,3 +227,20 @@ export interface CmsAbout {
   philosophy: CmsPhilosophyItem[];
   timeline: CmsTimelineItem[];
 }
+
+export interface CmsSubjectGrade { grade: string; count: number }
+export interface CmsSubjectResult {
+  id: string;
+  name: string;
+  iconKey: string;
+  iconBg: string;
+  iconColor: string;
+  grades: CmsSubjectGrade[];
+}
+
+export interface CmsEnglishLevel { level: string; count: number }
+export interface CmsEnglishGrowth { year: string; count: number }
+export interface CmsEnglishCerts {
+  levels: CmsEnglishLevel[];
+  growthData: CmsEnglishGrowth[];
+}

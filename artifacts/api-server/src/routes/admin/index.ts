@@ -20,6 +20,8 @@ import contactRouter from "./contact.js";
 import mediaRouter from "./media.js";
 import uploadRouter from "./upload.js";
 import dashboardRouter from "./dashboard.js";
+import subjectResultsRouter from "./subject-results.js";
+import englishCertsRouter from "./english-certs.js";
 
 const router = Router();
 
@@ -44,5 +46,7 @@ router.use("/about", aboutRouter);
 router.use("/contact", contactRouter);
 router.use("/media", mediaRouter);
 router.use("/upload", uploadRouter);
+router.use("/subject-results", subjectResultsRouter);
+router.use("/english-certs", englishCertsRouter);
 
 export default router;
