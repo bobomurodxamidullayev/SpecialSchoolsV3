@@ -121,7 +121,13 @@ export default function Certificates() {
     return [...englishCerts.growthData].sort((a, b) => a.year.localeCompare(b.year));
   }, [englishCerts]);
 
-  const totalEnglish = useMemo(() => englishLevels.reduce((s, l) => s + l.count, 0), [englishLevels]);
+  const totalEnglish = useMemo(() => growthData.reduce((s, d) => s + d.count, 0), [growthData]);
+
+  const growthPeriod = useMemo(() => {
+    if (!growthData.length) return "";
+    const years = growthData.map((d) => d.year).sort();
+    return years.length === 1 ? years[0] : `${years[0]}–${years[years.length - 1]}`;
+  }, [growthData]);
 
   const displayForeignCerts = useMemo(() => {
     const intl = cmsCerts.filter((c) => c.level === "International");
@@ -373,8 +379,7 @@ export default function Certificates() {
                       <span className="inline-block w-3 h-3 rounded-full bg-primary" />
                       <span>{t("certificates.chart.legend")}</span>
                       <span className="font-bold text-foreground">{totalEnglish} {t("certificates.taLabel")}</span>
-                      <span>|</span>
-                      <span>{t("certificates.chart.period")}</span>
+                      {growthPeriod && <><span>|</span><span>{t("certificates.chart.period")}{growthPeriod}</span></>}
                     </div>
 
                     <div className="grid gap-3 mt-6" style={{ gridTemplateColumns: `repeat(${Math.min(growthData.length, 6)}, minmax(0, 1fr))` }}>
