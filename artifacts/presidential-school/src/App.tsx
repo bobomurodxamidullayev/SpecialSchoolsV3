@@ -38,6 +38,7 @@ import AdminSettings from "@/pages/admin/settings";
 import AdminMedia from "@/pages/admin/media";
 import AdminEvents from "@/pages/admin/events";
 import AdminFaq from "@/pages/admin/faq";
+import AdminTimetable from "@/pages/admin/timetable";
 import AdminAchievements from "@/pages/admin/achievements";
 import AdminDirections from "@/pages/admin/directions";
 import AdminAbout from "@/pages/admin/about";
@@ -101,6 +102,9 @@ function Router() {
       </Route>
       <Route path="/admin/faq">
         <AdminGuard><AdminFaq /></AdminGuard>
+      </Route>
+      <Route path="/admin/timetable">
+        <AdminGuard><AdminTimetable /></AdminGuard>
       </Route>
       <Route path="/admin/achievements">
         <AdminGuard><AdminAchievements /></AdminGuard>

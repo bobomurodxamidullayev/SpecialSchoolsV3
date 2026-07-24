@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard, Settings, UserCog, BookOpen, Award, Newspaper,
   Image, Trophy, GraduationCap, Phone, FolderOpen, Menu, X, LogOut, ChevronRight,
-  CalendarDays, HelpCircle, Medal, School, Info
+  CalendarDays, HelpCircle, Medal, School, Info, CalendarClock
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +20,7 @@ const NAV = [
   { href: "/admin/admissions", label: "Qabul", icon: GraduationCap },
   { href: "/admin/events", label: "Tadbirlar", icon: CalendarDays },
   { href: "/admin/faq", label: "FAQ", icon: HelpCircle },
+  { href: "/admin/timetable", label: "Dars jadvali", icon: CalendarClock },
   { href: "/admin/achievements", label: "Yutuqlar", icon: Medal },
   { href: "/admin/directions", label: "Yo'nalishlar", icon: School },
   { href: "/admin/about", label: "Maktab haqida", icon: Info },
@@ -40,9 +41,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col h-full">
       <div className="p-6 border-b border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-amber-400 flex items-center justify-center font-bold text-[#0f1b4d] text-sm">QC</div>
+          <div className="w-9 h-9 rounded-xl bg-amber-400 flex items-center justify-center font-bold text-[#0f1b4d] text-sm">BA</div>
           <div>
-            <p className="font-bold text-white text-sm leading-tight">QCh Admin</p>
+            <p className="font-bold text-white text-sm leading-tight">Bekobod Admin</p>
             <p className="text-xs text-slate-400">Panel</p>
           </div>
         </div>

@@ -20,6 +20,7 @@ import {
   type CmsAbout,
   type CmsSubjectResult,
   type CmsEnglishCerts,
+  type CmsTimetableItem,
 } from "@/lib/cms";
 
 export function useCmsSettings() {
@@ -171,6 +172,26 @@ export function useCmsEnglishCerts() {
   return useQuery({
     queryKey: ["cms", "english-certs"],
     queryFn: () => fetchContent<CmsEnglishCerts>("english-certs"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsTimetable() {
+  return useQuery({
+    queryKey: ["cms", "timetable"],
+    queryFn: () => fetchContent<CmsTimetableItem[]>("timetable"),
+    staleTime: 0,
+  });
+}
+
+export function useCmsAdminTimetable() {
+  return useQuery({
+    queryKey: ["admin", "timetable"],
+    queryFn: async () => {
+      const res = await fetch("/api/admin/timetable");
+      const json = await res.json();
+      return (json.data || []) as CmsTimetableItem[];
+    },
     staleTime: 0,
   });
 }

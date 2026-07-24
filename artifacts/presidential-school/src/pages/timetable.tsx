@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useCmsTimetable } from "@/hooks/useCms";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalendarDays, Clock, User, DoorOpen } from "lucide-react";
 
@@ -36,346 +37,6 @@ const DAYS_RU = ["Понедельник", "Вторник", "Среда", "Че
 
 const GRADES = ["5-sinf", "6-sinf", "7-sinf", "8-sinf", "9-sinf", "10-sinf", "11-sinf"];
 
-function makeLesson(period: number, subject: string, teacher: string, room: string): Lesson {
-  return { period, time: PERIODS[period - 1].time, subject, teacher, room };
-}
-
-const SCHEDULE: GradeSchedule = {
-  "5-sinf": {
-    Dushanba: [
-      makeLesson(1, "O'zbek tili", "Hasanova F.T.", "201"),
-      makeLesson(2, "Matematika", "Abdullayev Sh.", "105"),
-      makeLesson(3, "Tarix", "Tursunov B.H.", "301"),
-      makeLesson(4, "Ingliz tili", "Bo'riqulov A.T.", "202"),
-      makeLesson(5, "Biologiya", "Sayidova G.X.", "Lab-2"),
-      makeLesson(6, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-    ],
-    Seshanba: [
-      makeLesson(1, "Matematika", "Abdullayev Sh.", "105"),
-      makeLesson(2, "Fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(3, "Ingliz tili", "Bo'riqulov A.T.", "202"),
-      makeLesson(4, "Kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(5, "O'zbek tili", "Hasanova F.T.", "201"),
-      makeLesson(6, "Informatika", "Murodov O.Sh.", "IT-1"),
-    ],
-    Chorshanba: [
-      makeLesson(1, "Biologiya", "Sayidova G.X.", "Lab-2"),
-      makeLesson(2, "Tarix", "Tursunov B.H.", "301"),
-      makeLesson(3, "Matematika", "Abdullayev Sh.", "105"),
-      makeLesson(4, "Rus tili", "Xamrayeva Z.B.", "203"),
-      makeLesson(5, "Ingliz tili", "Bo'riqulov A.T.", "202"),
-      makeLesson(6, "Chizmachilik", "Murodov O.Sh.", "IT-1"),
-    ],
-    Payshanba: [
-      makeLesson(1, "Fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(2, "O'zbek tili", "Hasanova F.T.", "201"),
-      makeLesson(3, "Kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(4, "Matematika", "Abdullayev Sh.", "105"),
-      makeLesson(5, "Tarix", "Tursunov B.H.", "301"),
-      makeLesson(6, "Musiqa", "—", "Musiqa xonasi"),
-    ],
-    Juma: [
-      makeLesson(1, "Ingliz tili", "Bo'riqulov A.T.", "202"),
-      makeLesson(2, "Rus tili", "Xamrayeva Z.B.", "203"),
-      makeLesson(3, "Biologiya", "Sayidova G.X.", "Lab-2"),
-      makeLesson(4, "O'zbek tili", "Hasanova F.T.", "201"),
-      makeLesson(5, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-    ],
-    Shanba: [
-      makeLesson(1, "Matematika", "Abdullayev Sh.", "105"),
-      makeLesson(2, "Ingliz tili", "Bo'riqulov A.T.", "202"),
-      makeLesson(3, "Informatika", "Murodov O.Sh.", "IT-1"),
-      makeLesson(4, "Tarix", "Tursunov B.H.", "301"),
-    ],
-  },
-  "6-sinf": {
-    Dushanba: [
-      makeLesson(1, "Algebra", "Murodova Z.A.", "106"),
-      makeLesson(2, "Ingliz tili", "Urazbayeva B.E.", "204"),
-      makeLesson(3, "Kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(4, "O'zbek tili", "Norqo'ziyev I.S.", "201"),
-      makeLesson(5, "Biologiya", "Mirzayev Sh.O.", "Lab-2"),
-      makeLesson(6, "Jismoniy tarbiya", "Nazarova U.Sh.", "Zal"),
-    ],
-    Seshanba: [
-      makeLesson(1, "Fizika", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(2, "Algebra", "Murodova Z.A.", "106"),
-      makeLesson(3, "Rus tili", "Alekseyeva N.V.", "203"),
-      makeLesson(4, "Ingliz tili", "Urazbayeva B.E.", "204"),
-      makeLesson(5, "Tarix", "Yusupova N.H.", "301"),
-      makeLesson(6, "Informatika", "Umarov B.D.", "IT-1"),
-    ],
-    Chorshanba: [
-      makeLesson(1, "O'zbek tili", "Norqo'ziyev I.S.", "201"),
-      makeLesson(2, "Kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(3, "Fizika", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(4, "Algebra", "Murodova Z.A.", "106"),
-      makeLesson(5, "Ingliz tili", "Urazbayeva B.E.", "204"),
-      makeLesson(6, "Musiqa", "—", "Musiqa xonasi"),
-    ],
-    Payshanba: [
-      makeLesson(1, "Biologiya", "Mirzayev Sh.O.", "Lab-2"),
-      makeLesson(2, "Tarix", "Yusupova N.H.", "301"),
-      makeLesson(3, "Algebra", "Murodova Z.A.", "106"),
-      makeLesson(4, "Rus tili", "Alekseyeva N.V.", "203"),
-      makeLesson(5, "Kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(6, "Jismoniy tarbiya", "Nazarova U.Sh.", "Zal"),
-    ],
-    Juma: [
-      makeLesson(1, "Ingliz tili", "Urazbayeva B.E.", "204"),
-      makeLesson(2, "Algebra", "Murodova Z.A.", "106"),
-      makeLesson(3, "O'zbek tili", "Norqo'ziyev I.S.", "201"),
-      makeLesson(4, "Biologiya", "Mirzayev Sh.O.", "Lab-2"),
-      makeLesson(5, "Informatika", "Umarov B.D.", "IT-1"),
-    ],
-    Shanba: [
-      makeLesson(1, "Fizika", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(2, "Kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(3, "Ingliz tili", "Urazbayeva B.E.", "204"),
-      makeLesson(4, "Tarix", "Yusupova N.H.", "301"),
-    ],
-  },
-  "7-sinf": {
-    Dushanba: [
-      makeLesson(1, "Algebra", "Qodirov J.B.", "107"),
-      makeLesson(2, "Fizika", "Yo'ldosheva M.S.", "Lab-1"),
-      makeLesson(3, "Ingliz tili", "Davronova U.A.", "205"),
-      makeLesson(4, "Kimyo", "Holmatov N.R.", "Lab-3"),
-      makeLesson(5, "O'zbek tili", "Tursunova M.K.", "201"),
-      makeLesson(6, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-      makeLesson(7, "Informatika", "Murodov O.Sh.", "IT-2"),
-    ],
-    Seshanba: [
-      makeLesson(1, "Biologiya", "Rahimova D.B.", "Lab-2"),
-      makeLesson(2, "Algebra", "Qodirov J.B.", "107"),
-      makeLesson(3, "Rus tili", "Toshpo'latov A.X.", "203"),
-      makeLesson(4, "Fizika", "Yo'ldosheva M.S.", "Lab-1"),
-      makeLesson(5, "Ingliz tili", "Davronova U.A.", "205"),
-      makeLesson(6, "Tarix", "Bekzod T.H.", "302"),
-    ],
-    Chorshanba: [
-      makeLesson(1, "Kimyo", "Holmatov N.R.", "Lab-3"),
-      makeLesson(2, "O'zbek tili", "Tursunova M.K.", "201"),
-      makeLesson(3, "Algebra", "Qodirov J.B.", "107"),
-      makeLesson(4, "Biologiya", "Rahimova D.B.", "Lab-2"),
-      makeLesson(5, "Ingliz tili", "Davronova U.A.", "205"),
-      makeLesson(6, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-    ],
-    Payshanba: [
-      makeLesson(1, "Fizika", "Yo'ldosheva M.S.", "Lab-1"),
-      makeLesson(2, "Tarix", "Bekzod T.H.", "302"),
-      makeLesson(3, "Rus tili", "Toshpo'latov A.X.", "203"),
-      makeLesson(4, "Algebra", "Qodirov J.B.", "107"),
-      makeLesson(5, "Kimyo", "Holmatov N.R.", "Lab-3"),
-      makeLesson(6, "Informatika", "Murodov O.Sh.", "IT-2"),
-    ],
-    Juma: [
-      makeLesson(1, "Ingliz tili", "Davronova U.A.", "205"),
-      makeLesson(2, "Biologiya", "Rahimova D.B.", "Lab-2"),
-      makeLesson(3, "O'zbek tili", "Tursunova M.K.", "201"),
-      makeLesson(4, "Fizika", "Yo'ldosheva M.S.", "Lab-1"),
-      makeLesson(5, "Tarix", "Bekzod T.H.", "302"),
-    ],
-    Shanba: [
-      makeLesson(1, "Algebra", "Qodirov J.B.", "107"),
-      makeLesson(2, "Kimyo", "Holmatov N.R.", "Lab-3"),
-      makeLesson(3, "Informatika", "Murodov O.Sh.", "IT-2"),
-      makeLesson(4, "Ingliz tili", "Davronova U.A.", "205"),
-    ],
-  },
-  "8-sinf": {
-    Dushanba: [
-      makeLesson(1, "Geometriya", "Abdullayev Sh.", "108"),
-      makeLesson(2, "Fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(3, "Ingliz tili", "Nuriddinova A.N.", "206"),
-      makeLesson(4, "Kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(5, "O'zbek tili", "Hasanova F.T.", "201"),
-      makeLesson(6, "Informatika", "Umarov B.D.", "IT-1"),
-      makeLesson(7, "Jismoniy tarbiya", "Nazarova U.Sh.", "Zal"),
-    ],
-    Seshanba: [
-      makeLesson(1, "Algebra", "Murodova Z.A.", "107"),
-      makeLesson(2, "Biologiya", "Sayidova G.X.", "Lab-2"),
-      makeLesson(3, "Rus tili", "Xamrayeva Z.B.", "203"),
-      makeLesson(4, "Geometriya", "Abdullayev Sh.", "108"),
-      makeLesson(5, "Ingliz tili", "Nuriddinova A.N.", "206"),
-      makeLesson(6, "Tarix", "Tursunov B.H.", "302"),
-    ],
-    Chorshanba: [
-      makeLesson(1, "Kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(2, "Algebra", "Murodova Z.A.", "107"),
-      makeLesson(3, "Fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(4, "O'zbek tili", "Hasanova F.T.", "201"),
-      makeLesson(5, "Ingliz tili", "Nuriddinova A.N.", "206"),
-      makeLesson(6, "Biologiya", "Sayidova G.X.", "Lab-2"),
-    ],
-    Payshanba: [
-      makeLesson(1, "Geometriya", "Abdullayev Sh.", "108"),
-      makeLesson(2, "Tarix", "Tursunov B.H.", "302"),
-      makeLesson(3, "Rus tili", "Xamrayeva Z.B.", "203"),
-      makeLesson(4, "Kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(5, "Informatika", "Umarov B.D.", "IT-1"),
-      makeLesson(6, "Jismoniy tarbiya", "Nazarova U.Sh.", "Zal"),
-    ],
-    Juma: [
-      makeLesson(1, "Ingliz tili", "Nuriddinova A.N.", "206"),
-      makeLesson(2, "Biologiya", "Sayidova G.X.", "Lab-2"),
-      makeLesson(3, "Algebra", "Murodova Z.A.", "107"),
-      makeLesson(4, "Geometriya", "Abdullayev Sh.", "108"),
-      makeLesson(5, "Fizika", "Toshpulatova M.I.", "Lab-1"),
-    ],
-    Shanba: [
-      makeLesson(1, "Kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(2, "Algebra", "Murodova Z.A.", "107"),
-      makeLesson(3, "Ingliz tili", "Nuriddinova A.N.", "206"),
-      makeLesson(4, "Informatika", "Umarov B.D.", "IT-1"),
-    ],
-  },
-  "9-sinf": {
-    Dushanba: [
-      makeLesson(1, "Matematika tahlili", "Toshmatov B.H.", "109"),
-      makeLesson(2, "Fizika (chuqur)", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(3, "Ingliz tili", "Xabibullayeva S.M.", "207"),
-      makeLesson(4, "Kimyo (chuqur)", "Qodirov J.H.", "Lab-3"),
-      makeLesson(5, "O'zbek adabiyoti", "Norqo'ziyev I.S.", "201"),
-      makeLesson(6, "Informatika", "Murodov O.Sh.", "IT-2"),
-      makeLesson(7, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-    ],
-    Seshanba: [
-      makeLesson(1, "Algebra va analiz", "Toshmatov B.H.", "109"),
-      makeLesson(2, "Biologiya", "Rahimova D.B.", "Lab-2"),
-      makeLesson(3, "Rus tili", "Alekseyeva N.V.", "203"),
-      makeLesson(4, "Matematika tahlili", "Toshmatov B.H.", "109"),
-      makeLesson(5, "Ingliz tili", "Xabibullayeva S.M.", "207"),
-      makeLesson(6, "Tarix", "Yusupova N.H.", "302"),
-    ],
-    Chorshanba: [
-      makeLesson(1, "Fizika (chuqur)", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(2, "Kimyo (chuqur)", "Qodirov J.H.", "Lab-3"),
-      makeLesson(3, "Matematika tahlili", "Toshmatov B.H.", "109"),
-      makeLesson(4, "O'zbek adabiyoti", "Norqo'ziyev I.S.", "201"),
-      makeLesson(5, "Ingliz tili", "Xabibullayeva S.M.", "207"),
-      makeLesson(6, "Biologiya", "Rahimova D.B.", "Lab-2"),
-    ],
-    Payshanba: [
-      makeLesson(1, "Algebra va analiz", "Toshmatov B.H.", "109"),
-      makeLesson(2, "Tarix", "Yusupova N.H.", "302"),
-      makeLesson(3, "Rus tili", "Alekseyeva N.V.", "203"),
-      makeLesson(4, "Fizika (chuqur)", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(5, "Kimyo (chuqur)", "Qodirov J.H.", "Lab-3"),
-      makeLesson(6, "Informatika", "Murodov O.Sh.", "IT-2"),
-    ],
-    Juma: [
-      makeLesson(1, "Ingliz tili", "Xabibullayeva S.M.", "207"),
-      makeLesson(2, "Biologiya", "Rahimova D.B.", "Lab-2"),
-      makeLesson(3, "Matematika tahlili", "Toshmatov B.H.", "109"),
-      makeLesson(4, "Fizika (chuqur)", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(5, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-    ],
-    Shanba: [
-      makeLesson(1, "Kimyo (chuqur)", "Qodirov J.H.", "Lab-3"),
-      makeLesson(2, "Algebra va analiz", "Toshmatov B.H.", "109"),
-      makeLesson(3, "Ingliz tili", "Xabibullayeva S.M.", "207"),
-      makeLesson(4, "Informatika", "Murodov O.Sh.", "IT-2"),
-    ],
-  },
-  "10-sinf": {
-    Dushanba: [
-      makeLesson(1, "Oliy matematika", "Abdullayev Sh.", "110"),
-      makeLesson(2, "Nazariy fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(3, "Ingliz tili (IELTS)", "Urazbayeva B.E.", "208"),
-      makeLesson(4, "Organik kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(5, "O'zbek tili", "Hasanova F.T.", "201"),
-      makeLesson(6, "Dasturlash (Python)", "Umarov B.D.", "IT-1"),
-      makeLesson(7, "Jismoniy tarbiya", "Nazarova U.Sh.", "Zal"),
-    ],
-    Seshanba: [
-      makeLesson(1, "Nazariy fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(2, "Oliy matematika", "Abdullayev Sh.", "110"),
-      makeLesson(3, "Rus tili", "Xamrayeva Z.B.", "203"),
-      makeLesson(4, "Ingliz tili (IELTS)", "Urazbayeva B.E.", "208"),
-      makeLesson(5, "Genetika va biologiya", "Sayidova G.X.", "Lab-2"),
-      makeLesson(6, "Tarix", "Tursunov B.H.", "302"),
-    ],
-    Chorshanba: [
-      makeLesson(1, "Organik kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(2, "Oliy matematika", "Abdullayev Sh.", "110"),
-      makeLesson(3, "Nazariy fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(4, "Dasturlash (Python)", "Umarov B.D.", "IT-1"),
-      makeLesson(5, "Ingliz tili (IELTS)", "Urazbayeva B.E.", "208"),
-      makeLesson(6, "Genetika va biologiya", "Sayidova G.X.", "Lab-2"),
-    ],
-    Payshanba: [
-      makeLesson(1, "Oliy matematika", "Abdullayev Sh.", "110"),
-      makeLesson(2, "Tarix", "Tursunov B.H.", "302"),
-      makeLesson(3, "Rus tili", "Xamrayeva Z.B.", "203"),
-      makeLesson(4, "Organik kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(5, "Dasturlash (Python)", "Umarov B.D.", "IT-1"),
-      makeLesson(6, "Jismoniy tarbiya", "Nazarova U.Sh.", "Zal"),
-    ],
-    Juma: [
-      makeLesson(1, "Ingliz tili (IELTS)", "Urazbayeva B.E.", "208"),
-      makeLesson(2, "Genetika va biologiya", "Sayidova G.X.", "Lab-2"),
-      makeLesson(3, "Oliy matematika", "Abdullayev Sh.", "110"),
-      makeLesson(4, "Nazariy fizika", "Toshpulatova M.I.", "Lab-1"),
-      makeLesson(5, "O'zbek tili", "Hasanova F.T.", "201"),
-    ],
-    Shanba: [
-      makeLesson(1, "Organik kimyo", "Nazarova G.X.", "Lab-3"),
-      makeLesson(2, "Dasturlash (Python)", "Umarov B.D.", "IT-1"),
-      makeLesson(3, "Ingliz tili (IELTS)", "Urazbayeva B.E.", "208"),
-      makeLesson(4, "Oliy matematika", "Abdullayev Sh.", "110"),
-    ],
-  },
-  "11-sinf": {
-    Dushanba: [
-      makeLesson(1, "Matematik analiz", "Abdullayev Sh.", "111"),
-      makeLesson(2, "Kvant fizikasi", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(3, "Ingliz tili (SAT/IELTS)", "Nuriddinova A.N.", "209"),
-      makeLesson(4, "Analitik kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(5, "O'zbek tili va adabiyoti", "Norqo'ziyev I.S.", "201"),
-      makeLesson(6, "Sun'iy intellekt", "Murodov O.Sh.", "IT-2"),
-      makeLesson(7, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-    ],
-    Seshanba: [
-      makeLesson(1, "Kvant fizikasi", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(2, "Matematik analiz", "Abdullayev Sh.", "111"),
-      makeLesson(3, "Rus tili", "Toshpo'latov A.X.", "203"),
-      makeLesson(4, "Ingliz tili (SAT/IELTS)", "Nuriddinova A.N.", "209"),
-      makeLesson(5, "Molekulyar biologiya", "Rahimova D.B.", "Lab-2"),
-      makeLesson(6, "Falsafa va etika", "Yusupova N.H.", "302"),
-    ],
-    Chorshanba: [
-      makeLesson(1, "Analitik kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(2, "Matematik analiz", "Abdullayev Sh.", "111"),
-      makeLesson(3, "Kvant fizikasi", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(4, "Sun'iy intellekt", "Murodov O.Sh.", "IT-2"),
-      makeLesson(5, "Ingliz tili (SAT/IELTS)", "Nuriddinova A.N.", "209"),
-      makeLesson(6, "Molekulyar biologiya", "Rahimova D.B.", "Lab-2"),
-    ],
-    Payshanba: [
-      makeLesson(1, "Matematik analiz", "Abdullayev Sh.", "111"),
-      makeLesson(2, "Falsafa va etika", "Yusupova N.H.", "302"),
-      makeLesson(3, "Rus tili", "Toshpo'latov A.X.", "203"),
-      makeLesson(4, "Analitik kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(5, "Sun'iy intellekt", "Murodov O.Sh.", "IT-2"),
-      makeLesson(6, "Jismoniy tarbiya", "Xoliqov J.M.", "Zal"),
-    ],
-    Juma: [
-      makeLesson(1, "Ingliz tili (SAT/IELTS)", "Nuriddinova A.N.", "209"),
-      makeLesson(2, "Molekulyar biologiya", "Rahimova D.B.", "Lab-2"),
-      makeLesson(3, "Matematik analiz", "Abdullayev Sh.", "111"),
-      makeLesson(4, "Kvant fizikasi", "Xoliqov S.M.", "Lab-1"),
-      makeLesson(5, "O'zbek tili va adabiyoti", "Norqo'ziyev I.S.", "201"),
-    ],
-    Shanba: [
-      makeLesson(1, "Analitik kimyo", "Qodirov J.H.", "Lab-3"),
-      makeLesson(2, "Sun'iy intellekt", "Murodov O.Sh.", "IT-2"),
-      makeLesson(3, "Ingliz tili (SAT/IELTS)", "Nuriddinova A.N.", "209"),
-      makeLesson(4, "Matematik analiz", "Abdullayev Sh.", "111"),
-    ],
-  },
-};
 
 // Subject → gradient mapping for coloured badges
 const SUBJECT_COLORS: Record<string, string> = {
@@ -426,6 +87,7 @@ function subjectGradient(subject: string): string {
 // ─────────────────────────────────────────────────────────────────
 export default function Timetable() {
   const { t, language } = useLanguage();
+  const { data: cmsItems = [], isLoading } = useCmsTimetable();
 
   const DAYS = language === "ru" ? DAYS_RU : language === "en" ? DAYS_EN : DAYS_UZ;
 
@@ -434,7 +96,8 @@ export default function Timetable() {
 
   const dayIndex = DAYS.indexOf(day);
   const uzDay    = DAYS_UZ[dayIndex] ?? DAYS_UZ[0];
-  const lessons: Lesson[] = SCHEDULE[grade]?.[uzDay] ?? [];
+
+  const lessons = Array.isArray(cmsItems) ? cmsItems.filter(i => i.grade === grade && i.day === uzDay).sort((a,b) => a.period - b.period) : [];
 
   // When language changes, reset day index but keep position
   const displayDay = DAYS[dayIndex] ?? DAYS[0];
@@ -549,7 +212,11 @@ export default function Timetable() {
               transition={{ duration: 0.25 }}
               className="space-y-3"
             >
-              {lessons.length === 0 ? (
+              {isLoading ? (
+                <div className="text-center py-20 text-muted-foreground">
+                  <p className="font-medium text-lg">Yuklanmoqda...</p>
+                </div>
+              ) : lessons.length === 0 ? (
                 <div className="text-center py-20 text-muted-foreground">
                   <CalendarDays className="h-12 w-12 mx-auto mb-4 opacity-30" />
                   <p className="font-medium text-lg">

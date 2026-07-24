@@ -244,3 +244,14 @@ export interface CmsEnglishCerts {
   levels: CmsEnglishLevel[];
   growthData: CmsEnglishGrowth[];
 }
+
+export interface CmsTimetableItem {
+  id: string;
+  grade: string;
+  day: string;
+  period: number;
+  time: string;
+  subject: string;
+  teacher: string;
+  room: string;
+}

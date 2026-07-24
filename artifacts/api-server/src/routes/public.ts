@@ -121,7 +121,6 @@ const DEFAULT_SUBJECT_RESULTS = [
   { id: "ona", name: "Ona tili", iconKey: "BookOpen", iconBg: "bg-emerald-100 dark:bg-emerald-900/40", iconColor: "text-emerald-600 dark:text-emerald-400", grades: [{ grade: "A+", count: 0 }, { grade: "A", count: 9 }, { grade: "B+", count: 9 }, { grade: "B", count: 23 }, { grade: "C+", count: 23 }, { grade: "C", count: 12 }] },
   { id: "kim", name: "Kimyo", iconKey: "FlaskConical", iconBg: "bg-purple-100 dark:bg-purple-900/40", iconColor: "text-purple-600 dark:text-purple-400", grades: [{ grade: "A+", count: 3 }, { grade: "A", count: 7 }, { grade: "B+", count: 11 }, { grade: "B", count: 5 }, { grade: "C+", count: 9 }, { grade: "C", count: 1 }] },
   { id: "bio", name: "Biologiya", iconKey: "Dna", iconBg: "bg-teal-100 dark:bg-teal-900/40", iconColor: "text-teal-600 dark:text-teal-400", grades: [{ grade: "A+", count: 1 }, { grade: "A", count: 5 }, { grade: "B+", count: 8 }, { grade: "B", count: 12 }, { grade: "C+", count: 7 }, { grade: "C", count: 3 }] },
-  { id: "fiz", name: "Fizika", iconKey: "Zap", iconBg: "bg-orange-100 dark:bg-orange-900/40", iconColor: "text-orange-600 dark:text-orange-400", grades: [{ grade: "A+", count: 6 }, { grade: "A", count: 10 }, { grade: "B+", count: 14 }, { grade: "B", count: 8 }, { grade: "C+", count: 5 }, { grade: "C", count: 2 }] },
 ];
 
 const DEFAULT_ENGLISH_CERTS = {
@@ -136,6 +135,11 @@ router.get("/subject-results", async (_req, res) => {
 
 router.get("/english-certs", async (_req, res) => {
   const data = await readData("english-certs.json", DEFAULT_ENGLISH_CERTS);
+  res.json({ ok: true, data });
+});
+
+router.get("/timetable", async (_req, res) => {
+  const data = await readData<unknown[]>("timetable.json", []);
   res.json({ ok: true, data });
 });
 

@@ -22,6 +22,7 @@ import uploadRouter from "./upload.js";
 import dashboardRouter from "./dashboard.js";
 import subjectResultsRouter from "./subject-results.js";
 import englishCertsRouter from "./english-certs.js";
+import timetableRouter from "./timetable.js";
 
 const router = Router();
 
@@ -48,5 +49,6 @@ router.use("/media", mediaRouter);
 router.use("/upload", uploadRouter);
 router.use("/subject-results", subjectResultsRouter);
 router.use("/english-certs", englishCertsRouter);
+router.use("/timetable", timetableRouter);
 
 export default router;
