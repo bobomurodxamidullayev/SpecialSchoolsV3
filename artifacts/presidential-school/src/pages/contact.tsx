@@ -34,7 +34,7 @@ export default function Contact() {
   const { data: contact } = useCmsContact();
   const [formState, setFormState] = useState<FormState>("idle");
 
-  const address = contact ? pickLang(contact.address, language) : "Quyi Chirchiq tumani, Toshkent viloyati, Uzbekistan";
+  const address = contact ? pickLang(contact.address, language) : t("contact.mapSubtext");
   const phones = [contact?.phone, contact?.phone2].filter(Boolean).join("\n") || "+998 71 123 45 67";
   const emails = [contact?.email, contact?.email2].filter(Boolean).join("\n") || "info@qch-school.uz";
   const hours = contact ? pickLang(contact.workingHours, language) : "";

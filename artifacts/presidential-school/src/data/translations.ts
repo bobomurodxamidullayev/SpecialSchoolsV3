@@ -16,8 +16,11 @@ export const translations = {
       faq: "Savol-Javob",
       certificates: "Sertifikatlar",
     },
+    branding: {
+      name: "Bekobod tumani ixtisoslashtirilgan maktabi",
+    },
     hero: {
-      title: "Quyi Chirchiq Ixtisoslashtirilgan Maktabi",
+      title: "Bekobod tumani ixtisoslashtirilgan maktabi",
       subtitle: "Bilim — kelajak poydevori",
       cta1: "Qabul 2026",
       cta2: "Maktab haqida",
@@ -246,7 +249,7 @@ export const translations = {
       },
       sendButton: "Yuborish",
       mapText: "Xarita",
-      mapSubtext: "Quyi Chirchiq tumani, Toshkent viloyati",
+      mapSubtext: "Toshkent viloyati, Bekobod tumani",
     },
     students: {
       heroSubtitle:
@@ -370,8 +373,11 @@ export const translations = {
       faq: "FAQ",
       certificates: "Certificates",
     },
+    branding: {
+      name: "Specialized School of Bekobod District",
+    },
     hero: {
-      title: "Quyi Chirchiq Specialized School",
+      title: "Specialized School of Bekobod District",
       subtitle: "Education for the Future",
       cta1: "Admissions 2026",
       cta2: "About Us",
@@ -600,7 +606,7 @@ export const translations = {
       },
       sendButton: "Send Message",
       mapText: "Interactive Map",
-      mapSubtext: "Quyi Chirchiq, Toshkent viloyati",
+      mapSubtext: "Bekobod district, Tashkent region",
     },
     students: {
       heroSubtitle:
@@ -724,8 +730,11 @@ export const translations = {
       faq: "Вопросы и ответы",
       certificates: "Сертификаты",
     },
+    branding: {
+      name: "Специализированная школа Бекабадского района",
+    },
     hero: {
-      title: "Специализированная школа Куйи Чирчик",
+      title: "Специализированная школа Бекабадского района",
       subtitle: "Образование для будущего",
       cta1: "Поступление 2026",
       cta2: "О нас",
@@ -954,7 +963,7 @@ export const translations = {
       },
       sendButton: "Отправить",
       mapText: "Карта",
-      mapSubtext: "Куйи Чирчик, Ташкентская область",
+      mapSubtext: "Ташкентская область, Бекабадский район",
     },
     students: {
       heroSubtitle:

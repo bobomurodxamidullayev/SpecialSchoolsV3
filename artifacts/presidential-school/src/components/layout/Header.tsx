@@ -55,20 +55,15 @@ export function Header() {
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 group">
+            <Link href="/" className="flex items-center gap-2.5 group min-w-0">
               <img
                 src="/logo.png"
-                alt="QCh School Logo"
-                className="w-10 h-10 rounded-lg object-contain shadow-lg group-hover:scale-105 transition-transform"
+                alt="School Logo"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain shadow-lg shrink-0 group-hover:scale-105 transition-transform"
               />
-              <div className="hidden sm:block">
-                <span className="block font-bold text-lg leading-tight tracking-tight text-foreground group-hover:text-primary transition-colors">
-                  QCh School
-                </span>
-                <span className="block text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
-                  The ixtisoslashtirilgan maktab of Bekobod
-                </span>
-              </div>
+              <span className="font-bold text-sm sm:text-base leading-tight tracking-tight text-foreground group-hover:text-primary transition-colors line-clamp-2 max-w-[160px] sm:max-w-[220px]">
+                {t("branding.name")}
+              </span>
             </Link>
 
             {/* Desktop Nav */}

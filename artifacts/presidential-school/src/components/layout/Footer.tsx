@@ -10,12 +10,12 @@ export function Footer() {
   const { data: settings } = useCmsSettings();
   const { data: contact } = useCmsContact();
 
-  const schoolName = settings ? pickLang(settings.schoolName, language) : "QCh School";
+  const schoolName = settings ? pickLang(settings.schoolName, language) : t("branding.name");
   const tagline = settings ? pickLang(settings.description, language) : t("footer.tagline");
-  const address = contact ? pickLang(contact.address, language) : "Quyi Chirchiq tumani, Toshkent viloyati, Uzbekistan";
+  const address = contact ? pickLang(contact.address, language) : t("contact.mapSubtext");
   const phone = contact?.phone ?? settings?.phone ?? "+998 71 123 45 67";
-  const email = contact?.email ?? settings?.email ?? "info@qch-school.uz";
-  const copyright = settings?.copyright ?? `© ${new Date().getFullYear()} Quyi Chirchiq Presidential Specialized School.`;
+  const email = contact?.email ?? settings?.email ?? "info@bekobod-school.uz";
+  const copyright = settings?.copyright ?? `© ${new Date().getFullYear()} Bekobod tumani ixtisoslashtirilgan maktabi.`;
   const telegram = contact?.telegram ?? settings?.social?.telegram;
   const instagram = contact?.instagram ?? settings?.social?.instagram;
 
@@ -24,13 +24,13 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2.5">
               <img
                 src="/logo.png"
-                alt="QCh School Logo"
-                className="w-8 h-8 rounded object-contain"
+                alt="School Logo"
+                className="w-8 h-8 rounded object-contain shrink-0"
               />
-              <span className="font-bold text-lg tracking-tight text-foreground">{schoolName}</span>
+              <span className="font-bold text-sm leading-tight tracking-tight text-foreground line-clamp-2 max-w-[200px]">{schoolName}</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">{tagline}</p>
             <div className="flex gap-4 pt-2">

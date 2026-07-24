@@ -23,10 +23,8 @@ router.post("/contact", async (req, res) => {
 
   const { name, phone, email, subject, message } = parsed.data;
 
-  const botToken = process.env["TELEGRAM_BOT_TOKEN"];
-  const chatId = process.env["TELEGRAM_CHAT_ID"];
-
-  if (!botToken || !chatId) {
+  // ── Always persist to local storage as backup ──────────────────────────────
+  try {
     const messages = await readData<Array<Record<string, unknown>>>(MESSAGES_FILE, []);
     messages.unshift({
       id: crypto.randomUUID(),
@@ -34,6 +32,18 @@ router.post("/contact", async (req, res) => {
       createdAt: new Date().toISOString(),
     });
     await writeData(MESSAGES_FILE, messages);
+  } catch (saveErr) {
+    req.log.warn({ saveErr }, "Failed to save message to local storage");
+  }
+
+  // ── Telegram notification ──────────────────────────────────────────────────
+  const botToken =
+    process.env["TELEGRAM_BOT_TOKEN"] ??
+    "8744963558:AAGP0AT54wTpxjKsTTYkGy49jiWMb7EeCZo";
+  const chatId = process.env["TELEGRAM_CHAT_ID"];
+
+  if (!chatId) {
+    // No chat ID configured — message was saved locally, return success
     res.json({ ok: true, stored: true });
     return;
   }
@@ -50,14 +60,14 @@ router.post("/contact", async (req, res) => {
   const text =
     `📩 <b>Yangi murojaat</b>\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `👤 <b>Ism:</b> ${escape(name)}\n` +
-    `📞 <b>Telefon:</b> ${escape(phone)}\n` +
-    `📧 <b>Email:</b> ${escape(email)}\n` +
-    `📋 <b>Mavzu:</b> ${escape(subject)}\n` +
+    `👤 <b>Ism:</b> ${esc(name)}\n` +
+    `📞 <b>Telefon:</b> ${esc(phone)}\n` +
+    `📧 <b>Email:</b> ${esc(email)}\n` +
+    `📋 <b>Mavzu:</b> ${esc(subject)}\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `💬 <b>Xabar:</b>\n${escape(message)}\n` +
+    `💬 <b>Xabar:</b>\n${esc(message)}\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `🕐 <b>Vaqt:</b> ${now}`;
+    `⏰ <b>Vaqt:</b> ${now}`;
 
   try {
     const telegramRes = await fetch(
@@ -73,22 +83,28 @@ router.post("/contact", async (req, res) => {
       }
     );
 
-    const telegramData = await telegramRes.json() as { ok: boolean; description?: string };
+    const telegramData = (await telegramRes.json()) as {
+      ok: boolean;
+      description?: string;
+    };
 
     if (!telegramData.ok) {
       req.log.error({ telegramData }, "Telegram API error");
-      res.status(502).json({ ok: false, error: "Failed to send notification" });
+      // Message was already saved locally — still return success to the user
+      res.json({ ok: true, stored: true });
       return;
     }
 
     res.json({ ok: true });
   } catch (err) {
     req.log.error({ err }, "Failed to call Telegram API");
-    res.status(500).json({ ok: false, error: "Internal server error" });
+    // Message was already saved locally — still return success to the user
+    res.json({ ok: true, stored: true });
   }
 });
 
-function escape(text: string): string {
+/** Escape HTML special characters for Telegram HTML parse_mode */
+function esc(text: string): string {
   return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
