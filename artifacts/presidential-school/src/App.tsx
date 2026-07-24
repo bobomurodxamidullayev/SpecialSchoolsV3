@@ -21,6 +21,7 @@ import Directions from "@/pages/directions";
 import Events from "@/pages/events";
 import FAQ from "@/pages/faq";
 import Certificates from "@/pages/certificates";
+import Timetable from "@/pages/timetable";
 import NotFound from "@/pages/not-found";
 
 import AdminLogin from "@/pages/admin/login";
@@ -127,6 +128,7 @@ function Router() {
             <Route path="/events" component={Events} />
             <Route path="/faq" component={FAQ} />
             <Route path="/certificates" component={Certificates} />
+            <Route path="/timetable" component={Timetable} />
             <Route component={NotFound} />
           </Switch>
         </Layout>

@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTheme } from "@/contexts/ThemeContext";
-import { Moon, Sun, Menu, X, Globe } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,12 +18,11 @@ export function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-      
       const totalScroll = document.documentElement.scrollTop;
-      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scroll = `${totalScroll / windowHeight}`;
-      
-      setScrollProgress(Number(scroll));
+      const windowHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      setScrollProgress(windowHeight > 0 ? totalScroll / windowHeight : 0);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -36,16 +35,19 @@ export function Header() {
     { href: "/certificates", label: t("nav.certificates") },
     { href: "/news", label: t("nav.news") },
     { href: "/gallery", label: t("nav.gallery") },
+    { href: "/timetable", label: t("nav.timetable") },
     { href: "/admissions", label: t("nav.admissions") },
     { href: "/contact", label: t("nav.contact") },
   ];
 
   return (
     <>
-      <motion.div 
-        className="fixed top-0 left-0 h-1 bg-primary z-50 origin-left"
+      {/* Scroll-progress bar */}
+      <motion.div
+        className="fixed top-0 left-0 h-0.5 bg-primary z-50 origin-left"
         style={{ scaleX: scrollProgress }}
       />
+
       <header
         className={`fixed top-0 w-full z-40 transition-all duration-300 ${
           isScrolled
@@ -54,25 +56,39 @@ export function Header() {
         }`}
       >
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2.5 group min-w-0">
+          <div className="flex items-center justify-between gap-3">
+
+            {/* ── Logo + Name ── */}
+            <Link href="/" className="flex items-center gap-2.5 group shrink-0 min-w-0">
               <img
                 src="/logo.png"
                 alt="School Logo"
                 className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain shadow-lg shrink-0 group-hover:scale-105 transition-transform"
               />
-              <span className="font-bold text-sm sm:text-base leading-tight tracking-tight text-foreground group-hover:text-primary transition-colors line-clamp-2 max-w-[160px] sm:max-w-[220px]">
+
+              {/* Mobile: short two-liner */}
+              <div className="flex flex-col leading-tight sm:hidden">
+                <span className="font-bold text-sm whitespace-nowrap text-foreground group-hover:text-primary transition-colors">
+                  {t("branding.short")}
+                </span>
+                <span className="text-[10px] text-muted-foreground whitespace-nowrap font-medium">
+                  {t("branding.sub")}
+                </span>
+              </div>
+
+              {/* sm+: compact full name, capped width so it never truncates past 2 lines */}
+              <span className="hidden sm:block font-bold text-sm md:text-base leading-snug tracking-tight text-foreground group-hover:text-primary transition-colors max-w-[180px] md:max-w-[240px] lg:max-w-none">
                 {t("branding.name")}
               </span>
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden xl:flex items-center gap-0.5">
+            {/* ── Desktop Nav ── */}
+            <nav className="hidden xl:flex items-center gap-0.5 flex-1 justify-center">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all relative whitespace-nowrap ${
+                  className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all relative whitespace-nowrap ${
                     location === link.href
                       ? "text-primary"
                       : "text-foreground/80 hover:text-foreground hover:bg-accent/10"
@@ -91,13 +107,15 @@ export function Header() {
               ))}
             </nav>
 
-            <div className="flex items-center gap-2">
+            {/* ── Controls ── */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              {/* Language switcher */}
               <div className="hidden sm:flex items-center bg-accent/10 rounded-full p-1 border border-border/50">
                 {(["uz", "en", "ru"] as Language[]).map((lang) => (
                   <button
                     key={lang}
                     onClick={() => setLanguage(lang)}
-                    className={`px-3 py-1 rounded-full text-xs font-semibold uppercase transition-colors ${
+                    className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase transition-colors ${
                       language === lang
                         ? "bg-background text-foreground shadow-sm"
                         : "text-muted-foreground hover:text-foreground"
@@ -108,11 +126,12 @@ export function Header() {
                 ))}
               </div>
 
+              {/* Theme toggle */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full w-9 h-9 border border-border/50 bg-background/50 backdrop-blur"
+                className="rounded-full w-8 h-8 sm:w-9 sm:h-9 border border-border/50 bg-background/50 backdrop-blur"
               >
                 {theme === "dark" ? (
                   <Sun className="h-4 w-4" />
@@ -121,10 +140,11 @@ export function Header() {
                 )}
               </Button>
 
+              {/* Mobile menu toggle */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="xl:hidden"
+                className="xl:hidden w-8 h-8 sm:w-9 sm:h-9"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <Menu className="h-5 w-5" />
@@ -134,7 +154,7 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* ── Mobile Drawer ── */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
@@ -152,20 +172,26 @@ export function Header() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 h-full w-[80%] max-w-sm bg-card z-50 shadow-2xl border-l border-border flex flex-col p-6 lg:hidden"
             >
-              <div className="flex items-center justify-between mb-8">
-                <div className="font-bold text-lg font-serif">Menu</div>
+              {/* Drawer header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2.5">
+                  <img src="/logo.png" alt="School Logo" className="w-8 h-8 rounded object-contain" />
+                  <div className="flex flex-col leading-tight">
+                    <span className="font-bold text-sm text-foreground">{t("branding.short")}</span>
+                    <span className="text-[10px] text-muted-foreground">{t("branding.sub")}</span>
+                  </div>
+                </div>
                 <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
                   <X className="h-5 w-5" />
                 </Button>
               </div>
 
-              <div className="flex items-center gap-2 mb-8 bg-accent/10 p-1 rounded-lg">
+              {/* Language switcher in drawer */}
+              <div className="flex items-center gap-2 mb-6 bg-accent/10 p-1 rounded-lg">
                 {(["uz", "en", "ru"] as Language[]).map((lang) => (
                   <button
                     key={lang}
-                    onClick={() => {
-                      setLanguage(lang);
-                    }}
+                    onClick={() => setLanguage(lang)}
                     className={`flex-1 py-2 rounded-md text-sm font-semibold uppercase transition-colors ${
                       language === lang
                         ? "bg-background text-foreground shadow-sm"
@@ -177,7 +203,8 @@ export function Header() {
                 ))}
               </div>
 
-              <nav className="flex flex-col gap-2 overflow-y-auto flex-1 pr-1 -mr-1">
+              {/* Nav links in drawer */}
+              <nav className="flex flex-col gap-1 overflow-y-auto flex-1 pr-1 -mr-1">
                 {[
                   ...navLinks,
                   { href: "/students", label: t("nav.students") },

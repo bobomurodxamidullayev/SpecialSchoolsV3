@@ -5,16 +5,22 @@ import {
 
 interface ConfirmDialogProps {
   open: boolean;
-  onOpenChange: (v: boolean) => void;
+  onOpenChange?: (v: boolean) => void;
+  onCancel?: () => void;
   onConfirm: () => void;
   title?: string;
   description?: string;
   loading?: boolean;
 }
 
-export function ConfirmDialog({ open, onOpenChange, onConfirm, title = "Tasdiqlash", description = "Bu amalni ortga qaytarib bo'lmaydi. Davom etasizmi?", loading }: ConfirmDialogProps) {
+export function ConfirmDialog({ open, onOpenChange, onCancel, onConfirm, title = "Tasdiqlash", description = "Bu amalni ortga qaytarib bo'lmaydi. Davom etasizmi?", loading }: ConfirmDialogProps) {
+  const handleOpenChange = (v: boolean) => {
+    if (!v && onCancel) onCancel();
+    if (onOpenChange) onOpenChange(v);
+  };
+
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
       <AlertDialogContent className="bg-[#0c1428] border-white/10 text-white">
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

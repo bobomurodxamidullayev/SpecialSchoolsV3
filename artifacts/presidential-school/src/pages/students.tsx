@@ -156,8 +156,8 @@ export default function Students() {
                           <LvlIcon className="h-3 w-3" /> {student.level}
                         </span>
                         <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center mb-4 shadow-lg overflow-hidden">
-                          {student.photo ? (
-                            <img src={student.photo} alt={student.name} className="w-full h-full object-cover" />
+                          {(student as any).photo ? (
+                            <img src={(student as any).photo} alt={student.name} className="w-full h-full object-cover" />
                           ) : (
                             <span className="text-2xl font-serif font-bold text-white">
                               {student.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}
@@ -198,8 +198,8 @@ export default function Students() {
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-4">
                       <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center text-lg font-bold font-serif shrink-0 overflow-hidden">
-                        {student.photo ? (
-                          <img src={student.photo} alt={student.name} className="w-full h-full object-cover" />
+                        {(student as any).photo ? (
+                          <img src={(student as any).photo} alt={student.name} className="w-full h-full object-cover" />
                         ) : (
                           student.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")
                         )}

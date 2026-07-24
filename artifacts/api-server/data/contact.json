@@ -1,12 +1,12 @@
 {
   "phone": "+998 90 123 45 67",
   "phone2": "+998 93 456 78 91",
-  "email": "info@qch-school.uz",
-  "email2": "director@qch-school.uz",
+  "email": "info@bekobod-school.uz",
+  "email2": "director@bekobod-school.uz",
   "address": {
-    "uz": "Quyi Chirchiq tumani 25-maktab, Toshkent viloyati ",
-    "en": "Quyi Chirchiq District, Tashkent Region",
-    "ru": "Куйи Чирчикский район, Ташкентская область"
+    "uz": "Toshkent viloyati, Bekobod tumani, 25-maktab",
+    "en": "Bekobod district, Tashkent region, Uzbekistan",
+    "ru": "Ташкентская область, Бекабадский район"
   },
   "workingHours": {
     "uz": "Dushanba–Shanba: 08:00–18:00",
@@ -14,6 +14,6 @@
     "ru": "Пн–Сб: 08:00–18:00"
   },
   "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2993.1!2d69.6!3d41.3",
-  "telegram": "https://t.me/qchschool",
-  "instagram": "https://instagram.com/qchschool"
+  "telegram": "https://t.me/bekobodschool",
+  "instagram": "https://instagram.com/bekobodschool"
 }
