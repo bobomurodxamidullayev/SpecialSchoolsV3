@@ -312,28 +312,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA Banner ── */}
-      <section className="py-6 bg-muted/30 border-t border-border">
-        <div className="container mx-auto px-4">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary via-primary/90 to-accent/80 p-10 md:p-14 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
-            <div className="absolute inset-0 opacity-[0.05]"
-              style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-            <div className="absolute -top-10 -right-10 w-60 h-60 bg-white/10 rounded-full blur-3xl" />
-            <div className="relative z-10 text-center md:text-left">
-              <h3 className="text-2xl md:text-3xl font-bold font-serif mb-2">{t("home.ctaTitle") || "Ready to Join Our Community?"}</h3>
-              <p className="text-white/75 max-w-xl">{t("home.ctaDesc") || "Applications for 2026 are now open. Take the first step toward an extraordinary education."}</p>
-            </div>
-            <div className="relative z-10 shrink-0">
-              <Link href="/admissions">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full h-12 px-8 font-bold shadow-lg">
-                  {t("hero.cta1")} <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }

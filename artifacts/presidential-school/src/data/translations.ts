@@ -105,6 +105,12 @@ export const translations = {
         desc: "Savol yoki takliflaringiz bo'lsa, bizning qabulxonaga murojaat qiling yoki telefon orqali bog'laning.",
         button: "Xabar yuborish",
       },
+      labels: {
+        phone: "Telefon",
+        email: "Email",
+        education: "Ta'lim",
+        receptionHours: "Qabul vaqti",
+      },
     },
     teachers: {
       heroSubtitle:
@@ -453,6 +459,12 @@ export const translations = {
         desc: "If you have any questions or suggestions, please visit our reception or contact us by phone.",
         button: "Send a Message",
       },
+      labels: {
+        phone: "Phone",
+        email: "Email",
+        education: "Education",
+        receptionHours: "Reception Hours",
+      },
     },
     teachers: {
       heroSubtitle:
@@ -800,6 +812,12 @@ export const translations = {
         title: "Связаться с руководством",
         desc: "Если у вас есть вопросы или предложения, обратитесь в приёмную или свяжитесь по телефону.",
         button: "Отправить сообщение",
+      },
+      labels: {
+        phone: "Телефон",
+        email: "Email",
+        education: "Образование",
+        receptionHours: "Часы приёма",
       },
     },
     teachers: {

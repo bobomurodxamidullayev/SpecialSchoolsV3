@@ -25,9 +25,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-sm">
-                QC
-              </div>
+              <img
+                src="/logo.png"
+                alt="QCh School Logo"
+                className="w-8 h-8 rounded object-contain"
+              />
               <span className="font-bold text-lg tracking-tight text-foreground">{schoolName}</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">{tagline}</p>

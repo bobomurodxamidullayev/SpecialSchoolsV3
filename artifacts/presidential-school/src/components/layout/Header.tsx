@@ -56,15 +56,17 @@ export function Header() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">
-                QC
-              </div>
+              <img
+                src="/logo.png"
+                alt="QCh School Logo"
+                className="w-10 h-10 rounded-lg object-contain shadow-lg group-hover:scale-105 transition-transform"
+              />
               <div className="hidden sm:block">
                 <span className="block font-bold text-lg leading-tight tracking-tight text-foreground group-hover:text-primary transition-colors">
                   QCh School
                 </span>
                 <span className="block text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
-                  Presidential Specialized
+                  The ixtisoslashtirilgan maktab of Bekobod
                 </span>
               </div>
             </Link>

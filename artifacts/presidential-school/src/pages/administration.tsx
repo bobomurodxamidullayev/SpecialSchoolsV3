@@ -166,7 +166,7 @@ export default function Administration() {
                             <Phone className="h-4 w-4 text-primary" />
                           </div>
                           <div>
-                            <div className="text-[10px] text-muted-foreground font-medium">Telefon</div>
+                            <div className="text-[10px] text-muted-foreground font-medium">{t("administration.labels.phone")}</div>
                             <div className="text-sm font-semibold group-hover:text-primary transition-colors">{principal.phone}</div>
                           </div>
                           <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -180,7 +180,7 @@ export default function Administration() {
                             <Mail className="h-4 w-4 text-accent" />
                           </div>
                           <div>
-                            <div className="text-[10px] text-muted-foreground font-medium">Email</div>
+                            <div className="text-[10px] text-muted-foreground font-medium">{t("administration.labels.email")}</div>
                             <div className="text-sm font-semibold group-hover:text-accent transition-colors truncate max-w-[160px]">{principal.email}</div>
                           </div>
                           <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -191,7 +191,7 @@ export default function Administration() {
                             <GraduationCap className="h-4 w-4 text-green-600 dark:text-green-400" />
                           </div>
                           <div>
-                            <div className="text-[10px] text-muted-foreground font-medium">Ta'lim</div>
+                            <div className="text-[10px] text-muted-foreground font-medium">{t("administration.labels.education")}</div>
                             <div className="text-sm font-semibold">{principal.degree}</div>
                           </div>
                         </div>
@@ -201,7 +201,7 @@ export default function Administration() {
                             <Clock className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                           </div>
                           <div>
-                            <div className="text-[10px] text-muted-foreground font-medium">Qabul vaqti</div>
+                            <div className="text-[10px] text-muted-foreground font-medium">{t("administration.labels.receptionHours")}</div>
                             <div className="text-sm font-semibold">{principal.schedule}</div>
                           </div>
                         </div>
