@@ -52,48 +52,34 @@ export default function Contact() {
     setErrorMessage("");
 
     try {
-      let success = false;
+      const res = await fetch("https://691e0c54edc24.xvest6.ru/BekobodIM/send.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.name,
+          phone: values.phone,
+          email: values.email,
+          subject: values.subject,
+          message: values.message,
+        }),
+      });
+
+      let data;
       try {
-        const res = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        });
-        const data = await res.json() as { ok: boolean; error?: string };
-        if (res.ok && data.ok) {
-          success = true;
-        }
+        data = await res.json();
       } catch (e) {
-        console.warn("Backend API failed, falling back to direct Telegram API", e);
+        data = {};
       }
 
-      if (!success) {
-        // Fallback directly to Telegram
-        const botToken = "8744963558:AAGP0AT54wTpxjKsTTYkGy49jiWMb7EeCZo";
-        const chatId = "7647382204";
-        const text = `<b>📩 Yangi Murojaat (Bekobod Maktabi)</b>\n━━━━━━━━━━━━━━━━━━━━\n<b>👤 Ism:</b> ${values.name}\n<b>📞 Telefon:</b> ${values.phone}\n<b>📧 Email:</b> ${values.email}\n<b>📋 Mavzu:</b> ${values.subject}\n━━━━━━━━━━━━━━━━━━━━\n<b>💬 Xabar:</b>\n${values.message}\n━━━━━━━━━━━━━━━━━━━━\n<b>⏰ Vaqt:</b> ${new Date().toLocaleString("uz-UZ")}`;
-
-        const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: chatId,
-            parse_mode: "HTML",
-            text: text,
-          }),
-        });
-
-        if (!tgRes.ok) {
-           throw new Error("Telegram API orqali yuborishda xatolik");
-        }
+      if (res.status === 200 && data.status === true) {
+        setFormState("success");
+        form.reset();
+        setTimeout(() => setFormState("idle"), 6000);
+      } else {
+        throw new Error("Xabar yuborishda xatolik yuz berdi");
       }
-
-      setFormState("success");
-      form.reset();
-
-      setTimeout(() => setFormState("idle"), 6000);
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : "Something went wrong");
+      setErrorMessage(err instanceof Error ? err.message : "Xabar yuborishda xatolik yuz berdi");
       setFormState("error");
       setTimeout(() => setFormState("idle"), 5000);
     }
