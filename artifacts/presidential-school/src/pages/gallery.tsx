@@ -4,7 +4,8 @@ import { useCmsGallery } from "@/hooks/useCms";
 import { pickLang } from "@/lib/cms";
 import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { ZoomIn, Images, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ZoomIn, Images, ChevronLeft, ChevronRight, X, PlayCircle } from "lucide-react";
+import { getYouTubeEmbedUrl } from "@/lib/cms";
 
 const GRADIENTS: Record<string, string> = {
   Lessons:      "from-blue-900 via-blue-700 to-indigo-800",
@@ -25,7 +26,7 @@ const CAT_BADGE: Record<string, string> = {
   "School Life":"bg-violet-500/15 text-violet-400 border-violet-500/30",
 };
 
-type GalleryItem = { id: string; category: string; label: string; src?: string };
+type GalleryItem = { id: string; category: string; label: string; src?: string; mediaType?: "image" | "video"; videoUrl?: string; };
 
 export default function Gallery() {
   const { t, language } = useLanguage();
@@ -37,10 +38,12 @@ export default function Gallery() {
     const flat: GalleryItem[] = [];
     for (const item of cmsGallery) {
       const label = pickLang(item.title, language);
-      if (item.images?.length) {
-        item.images.forEach((src, i) => flat.push({ id: `${item.id}-${i}`, category: item.category, label, src }));
+      if (item.mediaType === "video") {
+        flat.push({ id: item.id, category: item.category, label, src: item.images[0], mediaType: "video", videoUrl: item.videoUrl });
+      } else if (item.images?.length) {
+        item.images.forEach((src, i) => flat.push({ id: `${item.id}-${i}`, category: item.category, label, src, mediaType: "image" }));
       } else {
-        flat.push({ id: item.id, category: item.category, label });
+        flat.push({ id: item.id, category: item.category, label, mediaType: "image" });
       }
     }
     return flat;
@@ -159,9 +162,17 @@ export default function Gallery() {
                     )}
                     <div className="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl" />
 
+                    {img.mediaType === "video" && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10 pointer-events-none">
+                        <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <PlayCircle className="h-8 w-8 text-white fill-white/20" />
+                        </div>
+                      </div>
+                    )}
+
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2">
-                      <ZoomIn className="h-7 w-7 text-white drop-shadow" />
-                      <span className="text-xs font-bold text-white tracking-wide">{t("gallery.view")}</span>
+                      <ZoomIn className="h-7 w-7 text-white drop-shadow z-20" />
+                      <span className="text-xs font-bold text-white tracking-wide z-20">{t("gallery.view")}</span>
                     </div>
 
                     <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -194,8 +205,10 @@ export default function Gallery() {
           <DialogDescription id="gallery-desc" className="sr-only">Photo lightbox view</DialogDescription>
           {selectedItem && (
             <div className="relative rounded-2xl overflow-hidden">
-              <div className={`w-full aspect-[4/3] relative ${!selectedItem.src ? `bg-gradient-to-br ${GRADIENTS[selectedItem.category] ?? "from-slate-700 to-slate-900"}` : "bg-black"}`}>
-                {selectedItem.src ? (
+              <div className={`w-full aspect-square sm:aspect-video relative ${!selectedItem.src ? `bg-gradient-to-br ${GRADIENTS[selectedItem.category] ?? "from-slate-700 to-slate-900"}` : "bg-black"}`}>
+                {selectedItem.mediaType === "video" && selectedItem.videoUrl && getYouTubeEmbedUrl(selectedItem.videoUrl) ? (
+                  <iframe src={getYouTubeEmbedUrl(selectedItem.videoUrl)!.embedUrl} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen />
+                ) : selectedItem.src ? (
                   <img src={selectedItem.src} alt={selectedItem.label} className="absolute inset-0 w-full h-full object-contain" />
                 ) : (
                   <>

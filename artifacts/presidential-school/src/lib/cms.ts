@@ -102,6 +102,8 @@ export interface CmsNews {
   coverImage: string;
   status: string;
   featured: boolean;
+  videoUrl?: string;
+  mediaType?: "image" | "video";
 }
 
 export interface CmsGalleryItem {
@@ -111,6 +113,8 @@ export interface CmsGalleryItem {
   category: string;
   date: string;
   images: string[];
+  videoUrl?: string;
+  mediaType?: "image" | "video";
 }
 
 export interface CmsStudent {
@@ -254,4 +258,19 @@ export interface CmsTimetableItem {
   subject: string;
   teacher: string;
   room: string;
+}
+
+export function getYouTubeEmbedUrl(url: string): { embedUrl: string; thumbnailUrl: string } | null {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+
+  if (match && match[2].length === 11) {
+    const videoId = match[2];
+    return {
+      embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`,
+      thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+    };
+  }
+  return null;
 }

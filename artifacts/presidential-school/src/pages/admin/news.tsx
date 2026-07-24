@@ -11,12 +11,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Pencil, Trash2, Search, Star } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, Star, Video, Image as ImageIcon } from "lucide-react";
+import { getYouTubeEmbedUrl } from "@/lib/cms";
 
 type LangObj = { uz: string; en: string; ru: string };
-interface NewsItem { id: string; title: LangObj; slug: string; content: LangObj; category: string; author: string; readTime: string; publishDate: string; coverImage: string; status: string; featured: boolean }
+interface NewsItem { id: string; title: LangObj; slug: string; content: LangObj; category: string; author: string; readTime: string; publishDate: string; coverImage: string; status: string; featured: boolean; mediaType?: "image" | "video"; videoUrl?: string; }
 const CATS = ["Achievements", "Facilities", "Events", "Academic", "Other"];
-const EMPTY: Omit<NewsItem, "id"> = { title: { uz: "", en: "", ru: "" }, slug: "", content: { uz: "", en: "", ru: "" }, category: "Achievements", author: "", readTime: "3", publishDate: new Date().toISOString().slice(0, 10), coverImage: "", status: "published", featured: false };
+const EMPTY: Omit<NewsItem, "id"> = { title: { uz: "", en: "", ru: "" }, slug: "", content: { uz: "", en: "", ru: "" }, category: "Achievements", author: "", readTime: "3", publishDate: new Date().toISOString().slice(0, 10), coverImage: "", status: "published", featured: false, mediaType: "image", videoUrl: "" };
 
 const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").slice(0, 80);
 
@@ -45,10 +46,18 @@ export default function AdminNews() {
   };
 
   const save = async (e: React.FormEvent) => {
-    e.preventDefault(); setSaving(true);
+    e.preventDefault(); 
+    setSaving(true);
+    let finalForm = { ...form };
+    if (finalForm.mediaType === "video" && finalForm.videoUrl) {
+      const yt = getYouTubeEmbedUrl(finalForm.videoUrl);
+      if (yt && !finalForm.coverImage) {
+        finalForm.coverImage = yt.thumbnailUrl;
+      }
+    }
     try {
-      if (editing) await api(`/news/${editing.id}`, { method: "PUT", body: JSON.stringify(form) });
-      else await api("/news", { method: "POST", body: JSON.stringify(form) });
+      if (editing) await api(`/news/${editing.id}`, { method: "PUT", body: JSON.stringify(finalForm) });
+      else await api("/news", { method: "POST", body: JSON.stringify(finalForm) });
       toast({ title: editing ? "Yangilandi" : "Qo'shildi" }); setModalOpen(false); load();
       queryClient.invalidateQueries({ queryKey: ["cms", "news"] });
     } catch (e) { toast({ title: "Xato", description: (e as Error).message, variant: "destructive" }); }
@@ -83,6 +92,7 @@ export default function AdminNews() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <p className="text-sm font-medium text-slate-200 truncate">{n.title.en || n.title.uz}</p>
+                        {n.mediaType === "video" && <Video className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
                         {n.featured && <Star className="w-3 h-3 text-amber-400 shrink-0" fill="currentColor" />}
                       </div>
                       <p className="text-xs text-slate-500">{n.category} · {n.publishDate} · {n.author}</p>
@@ -130,7 +140,29 @@ export default function AdminNews() {
               <input type="checkbox" id="featured" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} className="w-4 h-4" />
               <label htmlFor="featured" className="text-sm text-slate-300">Asosiy yangilik (Featured)</label>
             </div>
-            <div className="space-y-1"><label className="text-sm text-slate-300">Muqova rasmi</label><ImageUpload value={form.coverImage} onChange={(v) => setForm({ ...form, coverImage: v })} /></div>
+            <div className="space-y-1"><label className="text-sm text-slate-300">Media turi</label>
+              <Select value={form.mediaType || "image"} onValueChange={(v: "image" | "video") => setForm({ ...form, mediaType: v })}>
+                <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-[#0c1428] border-white/10 text-white">
+                  <SelectItem value="image"><div className="flex items-center"><ImageIcon className="w-4 h-4 mr-2"/> Rasm (Image)</div></SelectItem>
+                  <SelectItem value="video"><div className="flex items-center"><Video className="w-4 h-4 mr-2"/> YouTube Video</div></SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {form.mediaType === "video" && (
+              <div className="space-y-2 p-3 bg-white/5 border border-white/10 rounded-lg">
+                <label className="text-sm text-slate-300">YouTube Video Linki</label>
+                <Input placeholder="https://youtube.com/watch?v=..." value={form.videoUrl || ""} onChange={(e) => setForm({ ...form, videoUrl: e.target.value })} className="bg-white/5 border-white/10 text-white" />
+                {form.videoUrl && getYouTubeEmbedUrl(form.videoUrl) && (
+                  <div className="mt-2 aspect-video rounded-lg overflow-hidden border border-white/10">
+                    <iframe src={getYouTubeEmbedUrl(form.videoUrl)!.embedUrl} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen />
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="space-y-1"><label className="text-sm text-slate-300">Muqova rasmi (Thumbnail)</label><ImageUpload value={form.coverImage} onChange={(v) => setForm({ ...form, coverImage: v })} /></div>
             <div className="flex gap-2 justify-end pt-2">
               <Button type="button" variant="ghost" onClick={() => setModalOpen(false)} className="text-slate-400">Bekor</Button>
               <Button type="submit" disabled={saving} className="bg-amber-400 hover:bg-amber-500 text-[#0f1b4d] font-semibold">{saving ? "Saqlanmoqda..." : "Saqlash"}</Button>

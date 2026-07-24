@@ -3,8 +3,10 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCmsNews } from "@/hooks/useCms";
 import { pickLang, formatDate, formatReadTime } from "@/lib/cms";
-import { Clock, ChevronRight, Trophy, Building2, CalendarDays, BookOpen, Newspaper, ArrowRight, Rss } from "lucide-react";
+import { Clock, ChevronRight, Trophy, Building2, CalendarDays, BookOpen, Newspaper, ArrowRight, Rss, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { getYouTubeEmbedUrl } from "@/lib/cms";
 import { Link } from "wouter";
 
 type CategoryKey = "Achievements" | "Facilities" | "Events" | "Academic" | string;
@@ -115,6 +117,8 @@ export default function News() {
         author: n.author,
         coverImage: n.coverImage,
         slug: n.slug,
+        mediaType: n.mediaType,
+        videoUrl: n.videoUrl,
       })),
     [cmsNews, language],
   );
@@ -127,6 +131,7 @@ export default function News() {
   const filtered = activeCategory === "All" ? news : news.filter((n) => n.category === activeCategory);
   const featured = filtered[0];
   const grid = filtered.slice(1);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const catCounts = categories.reduce<Record<string, number>>((acc, cat) => {
     acc[cat] = cat === "All" ? news.length : news.filter((n) => n.category === cat).length;
@@ -229,11 +234,19 @@ export default function News() {
               {/* Featured article */}
               {featured && (
                 <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+                  onClick={() => featured.mediaType === "video" && featured.videoUrl && setActiveVideo(featured.videoUrl)}
                   className="mb-12 rounded-3xl overflow-hidden border border-border bg-card shadow-xl group cursor-pointer hover:shadow-2xl transition-all duration-300 grid md:grid-cols-[1fr_1.1fr]">
                   <div className="min-h-[280px] md:min-h-[420px] relative overflow-hidden">
                     <CardVisual category={featured.category} size="lg" image={featured.coverImage || undefined} />
+                    {featured.mediaType === "video" && (
+                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center transition-all group-hover:bg-black/40">
+                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-2xl scale-90 group-hover:scale-100 transition-transform">
+                          <PlayCircle className="h-10 w-10 text-white fill-white/10" />
+                        </div>
+                      </div>
+                    )}
                     {/* Article number */}
-                    <div className="absolute top-5 left-5">
+                    <div className="absolute top-5 left-5 z-10">
                       <span className="bg-black/40 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur-sm">
                         #{String(news.findIndex((n) => n.id === featured.id) + 1).padStart(2, "0")}
                       </span>
@@ -279,13 +292,21 @@ export default function News() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.07 }}
+                      onClick={() => item.mediaType === "video" && item.videoUrl && setActiveVideo(item.videoUrl)}
                       className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 hover:border-primary/30 transition-all duration-300 group cursor-pointer flex flex-col">
                       <div className="aspect-[16/9] relative overflow-hidden">
                         <CardVisual category={item.category} size="sm" image={item.coverImage || undefined} />
-                        <div className="absolute top-3 left-3">
+                        {item.mediaType === "video" && (
+                          <div className="absolute inset-0 bg-black/20 flex items-center justify-center transition-all group-hover:bg-black/30">
+                            <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg scale-90 group-hover:scale-100 transition-transform">
+                              <PlayCircle className="h-6 w-6 text-white fill-white/20" />
+                            </div>
+                          </div>
+                        )}
+                        <div className="absolute top-3 left-3 z-10">
                           <CategoryBadge category={item.category} />
                         </div>
-                        <div className="absolute bottom-3 right-3">
+                        <div className="absolute bottom-3 right-3 z-10">
                           <span className="text-[10px] bg-black/50 text-white px-2 py-1 rounded-full backdrop-blur-sm font-medium flex items-center gap-1">
                             <Clock className="h-2.5 w-2.5" /> {formatReadTime(item.readTime)}
                           </span>
@@ -351,6 +372,23 @@ export default function News() {
           </motion.div>
         </div>
       </section>
+
+      <Dialog open={!!activeVideo} onOpenChange={(v) => !v && setActiveVideo(null)}>
+        <DialogContent className="max-w-4xl bg-black/90 border-white/10 p-0 overflow-hidden text-white">
+          <div className="relative w-full bg-black flex items-center justify-center aspect-video">
+            {activeVideo && getYouTubeEmbedUrl(activeVideo) ? (
+              <iframe
+                src={getYouTubeEmbedUrl(activeVideo)!.embedUrl}
+                className="w-full h-full"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              />
+            ) : (
+              <p className="text-slate-400">Video link mavjud emas.</p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <style>{`
         @keyframes marquee {
